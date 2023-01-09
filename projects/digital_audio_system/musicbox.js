@@ -3,16 +3,16 @@ window.onload = function() {
   var bufferLoader = new BufferLoader(
     Audio.audioContext,
     [
-      "/mp3/A4.mp3",
-      "/mp3/A5.mp3",
-      "/mp3/C4.mp3",
-      "/mp3/C5.mp3",
-      "/mp3/D4.mp3",
-      "/mp3/D5.mp3",
-      "/mp3/E4.mp3",
-      "/mp3/E5.mp3",
-      "/mp3/G4.mp3",
-      "/mp3/G5.mp3",
+      "/projects/digital_audio_system/mp3/A4.mp3",
+      "/projects/digital_audio_system/mp3/A5.mp3",
+      "/projects/digital_audio_system/mp3/C4.mp3",
+      "/projects/digital_audio_system/mp3/C5.mp3",
+      "/projects/digital_audio_system/mp3/D4.mp3",
+      "/projects/digital_audio_system/mp3/D5.mp3",
+      "/projects/digital_audio_system/mp3/E4.mp3",
+      "/projects/digital_audio_system/mp3/E5.mp3",
+      "/projects/digital_audio_system/mp3/G4.mp3",
+      "/projects/digital_audio_system/mp3/G5.mp3",
     ],
     finishedLoading
   );
