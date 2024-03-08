@@ -1,6 +1,6 @@
 ---
 layout: page
-title: writeth
+title: Writeth
 ---
 
 # my writings
