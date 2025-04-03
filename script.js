@@ -147,7 +147,9 @@ document.addEventListener('DOMContentLoaded', function() {
             'million': '* 1000000',
             'mn': '* 1000000',
             'billion': '* 1000000000',
-            'bn': '* 1000000000'
+            'bn': '* 1000000000',
+            'crore': '* 10000000',
+            'crores': '* 10000000'
         };
         
         // Apply replacements
@@ -215,16 +217,42 @@ document.addEventListener('DOMContentLoaded', function() {
             
             const parts = [];
             
+            // Special case for exact multiples of 1000 crores
+            if (n >= 10000000000 && n % 10000000000 === 0) {
+                const thousandCrores = Math.floor(n / 10000000000);
+                return `${thousandCrores} ${thousandCrores === 1 ? 'thousand' : 'thousand'} crores`;
+            }
+            
             // Extract crores (10 million)
             if (n >= 10000000) {
                 const crores = Math.floor(n / 10000000);
                 n = n % 10000000;
                 
-                // For very large crore values, break them down further
-                if (crores >= 100) {
-                    const croreFormatted = breakDownLargeNumber(crores);
-                    parts.push(`${croreFormatted} crores`);
-                } else {
+                // For very large crore values
+                if (crores >= 1000) {
+                    // Convert to thousand crores directly
+                    const thousandCrores = Math.floor(crores / 1000);
+                    const remainingCrores = crores % 1000;
+                    
+                    parts.push(`${thousandCrores} thousand crores`);
+                    
+                    if (remainingCrores > 0) {
+                        parts.push(`${remainingCrores} crores`);
+                    }
+                } 
+                // For crore values between 100-999
+                else if (crores >= 100) {
+                    const hundredCrores = Math.floor(crores / 100);
+                    const remainingCrores = crores % 100;
+                    
+                    parts.push(`${hundredCrores} hundred crores`);
+                    
+                    if (remainingCrores > 0) {
+                        parts.push(`${remainingCrores} crores`);
+                    }
+                }
+                // For regular crore values
+                else {
                     parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
                 }
             }
@@ -253,32 +281,45 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Break down large numbers in a readable way
         function breakDownLargeNumber(num) {
+            // For numbers less than 1000, just return the string representation
             if (num < 1000) {
                 return num.toString();
             }
             
-            // Break down numbers above 1000
-            const parts = [];
-            
-            // Extract lakhs (if num is in crores)
-            if (num >= 100) {
-                const lakhs = Math.floor(num / 100);
-                num = num % 100;
-                parts.push(`${lakhs} ${lakhs === 1 ? 'lakh' : 'lakhs'}`);
+            // Special case for handling 1000 crores and similar large values
+            if (num === 1000) {
+                return "1 thousand";
+            } else if (num > 1000) {
+                // For even larger values, use a direct representation
+                return `${num} crores`;
             }
             
-            // Extract thousands
-            if (num >= 10) {
-                const thousands = Math.floor(num / 10) * 10;
-                num = num % 10;
-                if (thousands > 0) {
-                    parts.push(`${thousands} thousand`);
+            // For values between 100-999
+            const parts = [];
+            
+            // Extract hundreds (if num is in crores)
+            if (num >= 100) {
+                const hundreds = Math.floor(num / 100);
+                num = num % 100;
+                if (hundreds === 1) {
+                    parts.push(`${hundreds} hundred`);
+                } else {
+                    parts.push(`${hundreds} hundred`);
                 }
             }
             
-            // Add remaining thousands
+            // Extract tens
+            if (num >= 10) {
+                const tens = Math.floor(num / 10) * 10;
+                num = num % 10;
+                if (tens > 0) {
+                    parts.push(`${tens}`);
+                }
+            }
+            
+            // Add remaining units
             if (num > 0) {
-                parts.push(`${num} thousand`);
+                parts.push(`${num}`);
             }
             
             return parts.join(' ');
