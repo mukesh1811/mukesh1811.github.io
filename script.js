@@ -8,6 +8,48 @@ document.addEventListener('DOMContentLoaded', function() {
     
     let exchangeRate = null;
     let lastUpdateTime = null;
+    let isFormatting = false; // Flag to prevent recursive formatting
+    
+    // Format number with commas (American system)
+    function formatWithCommas(value) {
+        // Skip empty values or values with text indicators
+        if (!value || /[a-zA-Z]/.test(value)) return value;
+        
+        // Remove existing commas first
+        let cleanValue = value.replace(/,/g, '');
+        
+        // Check if it's a valid number
+        if (!/^\d*\.?\d*$/.test(cleanValue)) return value;
+        
+        // Split by decimal point
+        let parts = cleanValue.split('.');
+        let wholePart = parts[0];
+        let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+        
+        // Add commas to the whole part
+        return wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + decimalPart;
+    }
+    
+    // Handle input formatting
+    usdInput.addEventListener('input', function(e) {
+        if (isFormatting) return; // Prevent recursion
+        
+        const cursorPos = this.selectionStart;
+        const originalLength = this.value.length;
+        
+        // Only format if it's a pure number (no k, million, etc.)
+        if (!/[a-zA-Z]/.test(this.value)) {
+            isFormatting = true;
+            const formattedValue = formatWithCommas(this.value);
+            this.value = formattedValue;
+            isFormatting = false;
+            
+            // Adjust cursor position after formatting
+            const newLength = this.value.length;
+            const newPos = cursorPos + (newLength - originalLength);
+            this.setSelectionRange(newPos, newPos);
+        }
+    });
     
     // Fetch real-time exchange rate
     async function fetchExchangeRate() {
@@ -94,6 +136,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Convert to lowercase and remove extra spaces
         input = input.toLowerCase().trim();
+        
+        // Remove commas from the input first
+        input = input.replace(/,/g, '');
         
         // Replace common terms with their numerical equivalents
         const replacements = {
@@ -374,6 +419,12 @@ document.addEventListener('DOMContentLoaded', function() {
     examplePills.forEach(pill => {
         pill.addEventListener('click', function() {
             usdInput.value = this.textContent;
+            
+            // Format the value if it's a pure number
+            if (!/[a-zA-Z]/.test(usdInput.value)) {
+                usdInput.value = formatWithCommas(usdInput.value);
+            }
+            
             convertUsdToInr();
             
             // Add visual feedback
