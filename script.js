@@ -88,7 +88,7 @@ document.addEventListener('DOMContentLoaded', function() {
             return res;
         }
         
-        // Convert to words with Indian system
+        // Convert to words with Indian system for simple numbers
         function getIndianWords(n) {
             if (n < 1000) {
                 return n.toString();
@@ -101,7 +101,89 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
         
-        // Handle very large numbers (above 1 crore)
+        // Break down number into word parts (e.g., 123456 -> "1 lakh 23 thousand 456")
+        function detailedIndianFormat(n) {
+            if (n < 1000) {
+                return n.toString();
+            }
+            
+            const parts = [];
+            
+            // Extract crores (10 million)
+            if (n >= 10000000) {
+                const crores = Math.floor(n / 10000000);
+                n = n % 10000000;
+                
+                // For very large crore values, break them down further
+                if (crores >= 100) {
+                    const croreFormatted = breakDownLargeNumber(crores);
+                    parts.push(`${croreFormatted} crores`);
+                } else {
+                    parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
+                }
+            }
+            
+            // Extract lakhs (100 thousand)
+            if (n >= 100000) {
+                const lakhs = Math.floor(n / 100000);
+                n = n % 100000;
+                parts.push(`${lakhs} ${lakhs === 1 ? 'lakh' : 'lakhs'}`);
+            }
+            
+            // Extract thousands
+            if (n >= 1000) {
+                const thousands = Math.floor(n / 1000);
+                n = n % 1000;
+                parts.push(`${thousands} thousand`);
+            }
+            
+            // Add remaining
+            if (n > 0) {
+                parts.push(n.toString());
+            }
+            
+            return parts.join(' ');
+        }
+        
+        // Break down large numbers in a readable way
+        function breakDownLargeNumber(num) {
+            if (num < 1000) {
+                return num.toString();
+            }
+            
+            // Break down numbers above 1000
+            const parts = [];
+            
+            // Extract lakhs (if num is in crores)
+            if (num >= 100) {
+                const lakhs = Math.floor(num / 100);
+                num = num % 100;
+                parts.push(`${lakhs} ${lakhs === 1 ? 'lakh' : 'lakhs'}`);
+            }
+            
+            // Extract thousands
+            if (num >= 10) {
+                const thousands = Math.floor(num / 10) * 10;
+                num = num % 10;
+                if (thousands > 0) {
+                    parts.push(`${thousands} thousand`);
+                }
+            }
+            
+            // Add remaining thousands
+            if (num > 0) {
+                parts.push(`${num} thousand`);
+            }
+            
+            return parts.join(' ');
+        }
+        
+        // For very large numbers, use the detailed format
+        if (num >= 1000000000) { // Greater than or equal to 1 billion INR
+            return detailedIndianFormat(num);
+        }
+        
+        // Handle numbers between 1 crore and 1 billion
         if (num >= 10000000) {
             const crores = Math.floor(num / 10000000);
             const remaining = num % 10000000;
