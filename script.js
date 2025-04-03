@@ -3,18 +3,33 @@ document.addEventListener('DOMContentLoaded', function() {
     const convertBtn = document.getElementById('convert-btn');
     const resultValue = document.getElementById('result-value');
     const currentRateElement = document.getElementById('current-rate');
+    const examplePills = document.querySelectorAll('.example-pill');
+    const exchangeRateIcon = document.querySelector('.exchange-rate i');
     
     let exchangeRate = null;
+    let lastUpdateTime = null;
     
     // Fetch real-time exchange rate
     async function fetchExchangeRate() {
         try {
+            // Show loading animation
+            exchangeRateIcon.classList.add('rotating');
+            
             const response = await fetch('https://open.er-api.com/v6/latest/USD');
             const data = await response.json();
             
             if (data && data.rates && data.rates.INR) {
                 exchangeRate = data.rates.INR;
-                currentRateElement.textContent = `1 USD = ${exchangeRate.toFixed(2)} INR`;
+                lastUpdateTime = new Date();
+                
+                // Format the exchange rate with subtle animation
+                updateExchangeRateDisplay();
+                
+                // Remove loading animation with slight delay
+                setTimeout(() => {
+                    exchangeRateIcon.classList.remove('rotating');
+                }, 500);
+                
                 return exchangeRate;
             } else {
                 throw new Error('Could not get INR rate');
@@ -22,9 +37,55 @@ document.addEventListener('DOMContentLoaded', function() {
         } catch (error) {
             console.error('Error fetching exchange rate:', error);
             currentRateElement.textContent = 'Failed to load rate';
+            exchangeRateIcon.classList.remove('rotating');
+            
             // Fallback to a default rate if API fails
             return 83.5; // Approximate rate as of 2023
         }
+    }
+    
+    // Update the exchange rate display with time
+    function updateExchangeRateDisplay() {
+        if (!exchangeRate) return;
+        
+        // Animate the number change
+        animateNumber(currentRateElement, exchangeRate.toFixed(2), '1 USD = ₹', ' INR');
+        
+        // Update the tooltip with last update time if available
+        if (lastUpdateTime) {
+            const timeString = lastUpdateTime.toLocaleTimeString();
+            currentRateElement.title = `Last updated: ${timeString}`;
+        }
+    }
+    
+    // Animate number counting up
+    function animateNumber(element, targetValue, prefix = '', suffix = '') {
+        const duration = 1000; // ms
+        const start = parseFloat(element.textContent.replace(/[^\d.-]/g, '')) || 0;
+        const target = parseFloat(targetValue);
+        const startTime = performance.now();
+        
+        function updateNumber(currentTime) {
+            const elapsedTime = currentTime - startTime;
+            const progress = Math.min(elapsedTime / duration, 1);
+            const easedProgress = easeOutQuart(progress);
+            const currentValue = start + ((target - start) * easedProgress);
+            
+            element.textContent = `${prefix}${currentValue.toFixed(2)}${suffix}`;
+            
+            if (progress < 1) {
+                requestAnimationFrame(updateNumber);
+            } else {
+                element.textContent = `${prefix}${targetValue}${suffix}`;
+            }
+        }
+        
+        requestAnimationFrame(updateNumber);
+    }
+    
+    // Easing function for smoother animation
+    function easeOutQuart(x) {
+        return 1 - Math.pow(1 - x, 4);
     }
     
     // Parse the input value (handles regular numbers, k, million, billion)
@@ -215,12 +276,16 @@ document.addEventListener('DOMContentLoaded', function() {
         return getIndianWords(num);
     }
     
-    // Convert USD to INR and update the result
+    // Convert USD to INR and update the result with animation
     async function convertUsdToInr() {
+        // Show processing state
+        resultValue.textContent = 'Converting...';
+        
         const usdAmount = parseInputValue(usdInput.value);
         
         if (usdAmount === null) {
             resultValue.textContent = 'Please enter a valid amount';
+            showInvalidInput();
             return;
         }
         
@@ -229,7 +294,49 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         const inrAmount = usdAmount * exchangeRate;
-        resultValue.textContent = `₹${addIndianCommas(inrAmount.toFixed(2))} (${formatToIndianSystem(inrAmount)})`;
+        
+        // Format the result for display
+        const formattedAmount = `₹${addIndianCommas(inrAmount.toFixed(2))}`;
+        const wordsAmount = formatToIndianSystem(inrAmount);
+        
+        // Update with animation effect - Show just the numeric value first
+        resultValue.textContent = formattedAmount;
+        
+        // Then update with the full formatted result, prioritizing the text format
+        setTimeout(() => {
+            resultValue.innerHTML = `
+                <div class="result-text">${wordsAmount}</div>
+                <div class="result-numeric">${formattedAmount}</div>
+            `;
+            showSuccessAnimation();
+        }, 300);
+    }
+    
+    // Visual feedback for invalid input
+    function showInvalidInput() {
+        usdInput.classList.add('invalid');
+        setTimeout(() => {
+            usdInput.classList.remove('invalid');
+        }, 800);
+    }
+    
+    // Show success animation on conversion
+    function showSuccessAnimation() {
+        const resultBox = document.getElementById('result-box');
+        resultBox.classList.add('highlight');
+        
+        // Add highlight animation to the text result
+        const resultText = document.querySelector('.result-text');
+        if (resultText) {
+            resultText.classList.add('text-highlight');
+            setTimeout(() => {
+                resultText.classList.remove('text-highlight');
+            }, 1500);
+        }
+        
+        setTimeout(() => {
+            resultBox.classList.remove('highlight');
+        }, 800);
     }
     
     // Helper function for Indian system commas
@@ -255,6 +362,7 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Set up event listeners
     convertBtn.addEventListener('click', convertUsdToInr);
+    
     usdInput.addEventListener('keypress', function(event) {
         if (event.key === 'Enter') {
             event.preventDefault();
@@ -262,6 +370,63 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
     
+    // Make the example pills clickable
+    examplePills.forEach(pill => {
+        pill.addEventListener('click', function() {
+            usdInput.value = this.textContent;
+            convertUsdToInr();
+            
+            // Add visual feedback
+            this.classList.add('active');
+            setTimeout(() => {
+                this.classList.remove('active');
+            }, 300);
+        });
+    });
+    
+    // Allow manual refresh of exchange rate
+    exchangeRateIcon.addEventListener('click', function() {
+        if (!this.classList.contains('rotating')) {
+            fetchExchangeRate();
+        }
+    });
+    
     // Initialize by fetching the exchange rate
     fetchExchangeRate();
+    
+    // Add some CSS for the new interactive elements
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes rotating {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .rotating {
+            animation: rotating 1s linear infinite;
+        }
+        
+        .invalid {
+            animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+            border-color: #ef4444 !important;
+        }
+        
+        @keyframes shake {
+            10%, 90% { transform: translate3d(-1px, 0, 0); }
+            20%, 80% { transform: translate3d(2px, 0, 0); }
+            30%, 50%, 70% { transform: translate3d(-3px, 0, 0); }
+            40%, 60% { transform: translate3d(3px, 0, 0); }
+        }
+        
+        .highlight {
+            background-color: #f0f9ff !important;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        .example-pill.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+    `;
+    document.head.appendChild(style);
 }); 
