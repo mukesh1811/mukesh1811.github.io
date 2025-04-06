@@ -225,35 +225,24 @@ document.addEventListener('DOMContentLoaded', function() {
             
             // Extract crores (10 million)
             if (n >= 10000000) {
-                const crores = Math.floor(n / 10000000);
+                // Calculate total crores
+                const totalCrores = Math.floor(n / 10000000);
                 n = n % 10000000;
                 
-                // For very large crore values
-                if (crores >= 1000) {
-                    // Convert to thousand crores directly
-                    const thousandCrores = Math.floor(crores / 1000);
-                    const remainingCrores = crores % 1000;
-                    
-                    parts.push(`${thousandCrores} thousand crores`);
+                // Format crores in a more natural way
+                if (totalCrores >= 100) {
+                    // For values over 100 crores, say "X hundred and Y crores"
+                    const hundredCrores = Math.floor(totalCrores / 100);
+                    const remainingCrores = totalCrores % 100;
                     
                     if (remainingCrores > 0) {
-                        parts.push(`${remainingCrores} crores`);
+                        parts.push(`${hundredCrores} hundred and ${remainingCrores} crores`);
+                    } else {
+                        parts.push(`${hundredCrores} hundred crores`);
                     }
-                } 
-                // For crore values between 100-999
-                else if (crores >= 100) {
-                    const hundredCrores = Math.floor(crores / 100);
-                    const remainingCrores = crores % 100;
-                    
-                    parts.push(`${hundredCrores} hundred crores`);
-                    
-                    if (remainingCrores > 0) {
-                        parts.push(`${remainingCrores} crores`);
-                    }
-                }
-                // For regular crore values
-                else {
-                    parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
+                } else {
+                    // For regular crore values
+                    parts.push(`${totalCrores} ${totalCrores === 1 ? 'crore' : 'crores'}`);
                 }
             }
             
@@ -500,7 +489,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         .invalid {
             animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-            border-color: #ef4444 !important;
+            border-color: #f97316 !important;
         }
         
         @keyframes shake {
@@ -511,8 +500,8 @@ document.addEventListener('DOMContentLoaded', function() {
         }
         
         .highlight {
-            background-color: #f0f9ff !important;
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+            background-color: #fef9c3 !important;
+            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
         }
         
         .example-pill.active {
