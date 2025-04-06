@@ -315,7 +315,20 @@ document.addEventListener('DOMContentLoaded', function() {
         const usdAmount = parseInputValue(usdInput.value);
         
         if (usdAmount === null) {
-            resultValue.textContent = 'Please enter a valid amount';
+            // Check if the input contains multiple unit terms
+            const unitTerms = ['k', 'thousand', 'million', 'mn', 'billion', 'bn', 'trillion', 'crore', 'crores'];
+            const foundTerms = unitTerms.filter(term => usdInput.value.toLowerCase().includes(term));
+            
+            if (foundTerms.length > 1) {
+                resultValue.innerHTML = `
+                    <div class="error-message">
+                        Please use only one unit term (k, million, billion, etc.)<br>
+                        <span class="error-example">Example: "1.5 million" or "1500k"</span>
+                    </div>
+                `;
+            } else {
+                resultValue.textContent = 'Please enter a valid amount';
+            }
             showInvalidInput();
             return;
         }
@@ -458,6 +471,20 @@ document.addEventListener('DOMContentLoaded', function() {
         .example-pill.active {
             background-color: var(--accent-color);
             color: white;
+        }
+
+        .error-message {
+            color: #dc3545;
+            text-align: center;
+            padding: 10px;
+            line-height: 1.5;
+        }
+
+        .error-example {
+            display: block;
+            font-size: 0.9em;
+            color: #666;
+            margin-top: 5px;
         }
     `;
     document.head.appendChild(style);
