@@ -6,19 +6,19 @@
 }
 
 :root {
-    --primary-color: #4f46e5;
-    --primary-dark: #4338ca;
-    --secondary-color: #3b82f6;
-    --light-bg: #f8fafc;
-    --dark-text: #1e293b;
-    --light-text: #64748b;
-    --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+    --primary-color: #f59e0b;
+    --primary-dark: #d97706;
+    --secondary-color: #fcd34d;
+    --light-bg: #fffbeb;
+    --dark-text: #78350f;
+    --light-text: #92400e;
+    --card-shadow: 0 10px 25px rgba(234, 179, 8, 0.15);
     --transition: all 0.3s ease;
 }
 
 body {
     min-height: 100vh;
-    background: linear-gradient(135deg, #667eea, #764ba2);
+    background: #f9fafb;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -44,17 +44,17 @@ body {
 }
 
 h1 {
-    color: white;
+    color: var(--dark-text);
     font-weight: 700;
     font-size: 2.2rem;
     margin-bottom: 15px;
-    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+    text-shadow: none;
 }
 
 .exchange-rate {
     display: inline-flex;
     align-items: center;
-    background: rgba(255, 255, 255, 0.15);
+    background: var(--primary-color);
     backdrop-filter: blur(5px);
     padding: 8px 20px;
     border-radius: 50px;
@@ -75,11 +75,12 @@ h1 {
 }
 
 .converter-card {
-    background: white;
+    background: var(--light-bg);
     border-radius: 20px;
     padding: 30px;
     box-shadow: var(--card-shadow);
     margin-bottom: 20px;
+    border: 2px solid var(--secondary-color);
 }
 
 .input-section {
@@ -113,7 +114,7 @@ label {
 input {
     flex: 1;
     padding: 15px 15px 15px 35px;
-    border: 2px solid #e2e8f0;
+    border: 2px solid #fde68a;
     border-radius: 12px 0 0 12px;
     font-size: 1rem;
     transition: var(--transition);
@@ -122,7 +123,7 @@ input {
 input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.2);
 }
 
 button {
@@ -155,7 +156,7 @@ button:hover {
 }
 
 .example-pill {
-    background: #f1f5f9;
+    background: #fef3c7;
     color: var(--light-text);
     padding: 4px 12px;
     border-radius: 50px;
@@ -165,7 +166,7 @@ button:hover {
 }
 
 .example-pill:hover {
-    background: #e2e8f0;
+    background: #fde68a;
     color: var(--dark-text);
 }
 
@@ -203,7 +204,7 @@ button:hover {
     display: flex;
     flex-direction: column;
     justify-content: center;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 15px rgba(234, 179, 8, 0.1);
 }
 
 .result-text {
@@ -222,13 +223,13 @@ button:hover {
 
 .footer {
     text-align: center;
-    color: rgba(255, 255, 255, 0.8);
+    color: var(--light-text);
     font-size: 0.9rem;
 }
 
 .highlight {
-    background-color: #f0f9ff !important;
-    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1) !important;
+    background-color: #fef9c3 !important;
+    box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15) !important;
 }
 
 .text-highlight {
