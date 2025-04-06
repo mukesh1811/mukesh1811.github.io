@@ -140,6 +140,15 @@ document.addEventListener('DOMContentLoaded', function() {
         // Remove commas from the input first
         input = input.replace(/,/g, '');
         
+        // Check for multiple unit terms
+        const unitTerms = ['k', 'thousand', 'million', 'mn', 'billion', 'bn', 'trillion', 'crore', 'crores'];
+        const foundTerms = unitTerms.filter(term => input.includes(term));
+        
+        if (foundTerms.length > 1) {
+            console.error('Multiple unit terms found:', foundTerms);
+            return null;
+        }
+        
         // Replace common terms with their numerical equivalents
         const replacements = {
             'k': '* 1000',
