@@ -292,7 +292,7 @@ document.addEventListener('DOMContentLoaded', function() {
             // Extract thousands
             if (n >= 1000) {
                 const thousands = Math.floor(n / 1000);
-                n = n % 1000;
+                n = (n % 1000).toFixed(2);
                 parts.push(`${thousands} thousand`);
             }
             
@@ -340,7 +340,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         // Format the result for display
         const formattedAmount = `₹${addIndianCommas(inrAmount.toFixed(2))}`;
-        const wordsAmount = formatToIndianSystem(inrAmount);
+        const wordsAmount = formatToIndianSystem(inrAmount.toFixed(2));
         
         // Update with animation effect - Show just the numeric value first
         resultValue.textContent = formattedAmount;
@@ -391,7 +391,7 @@ document.addEventListener('DOMContentLoaded', function() {
             afterPoint = x.substring(x.indexOf('.'));
             x = x.substring(0, x.indexOf('.'));
         }
-        
+
         let lastThree = x.substring(x.length - 3);
         let otherNumbers = x.substring(0, x.length - 3);
         
