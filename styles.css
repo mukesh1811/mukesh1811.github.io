@@ -6,16 +6,24 @@
 }
 
 :root {
-    --primary-color: #2d3748;
-    --primary-dark: #1a202c;
+    --primary-color: #333;
+    --primary-light: #666;
+    --primary-dark: #111;
     --secondary-color: #4a5568;
-    --accent-color: #b7950b;
-    --accent-light: rgba(183, 149, 11, 0.1);
+    --accent-color: #808080;
+    --accent-light: rgba(128, 128, 128, 0.1);
     --light-bg: #f7fafc;
     --dark-text: #000000;
     --light-text: #2d3748;
     --card-shadow: 0 10px 25px rgba(45, 55, 72, 0.2);
     --transition: all 0.3s ease;
+    --text-color: #111;
+    --border-color: #ddd;
+    --bg-color: #f8f8f8;
+    --card-bg: #fff;
+    --shadow-color: rgba(0, 0, 0, 0.1);
+    --success-color: #4caf50;
+    --error-color: #f44336;
 }
 
 body {
@@ -231,8 +239,8 @@ button:hover {
 }
 
 .highlight {
-    background-color: rgba(183, 149, 11, 0.05) !important;
-    box-shadow: 0 0 0 2px rgba(183, 149, 11, 0.1) !important;
+    background-color: rgba(128, 128, 128, 0.05) !important;
+    box-shadow: 0 0 0 2px rgba(128, 128, 128, 0.1) !important;
 }
 
 .text-highlight {
