@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Easy USD INR Converter</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Easy USD INR Converter</h1>
+            <div class="exchange-rate">
+                <i class="fas fa-sync-alt"></i>
+                <span id="current-rate">Loading...</span>
+            </div>
+        </div>
+        
+        <div class="converter-card">
+            <div class="input-section">
+                <label for="usd-input">Enter USD amount</label>
+                <div class="input-group">
+                    <span class="currency-symbol">$</span>
+                    <input type="text" id="usd-input" placeholder="100, 10k, 1 million">
+                    <button id="convert-btn">Convert <i class="fas fa-arrow-right"></i></button>
+                </div>
+                <div class="input-examples">
+                    Try: <span class="example-pill">100</span> <span class="example-pill">5k</span> <span class="example-pill">250 k</span> <span class="example-pill">1.5 million</span> <span class="example-pill">500 billion</span>
+                </div>
+            </div>
+            
+            <div class="result-section">
+                <div class="result-label">In Indian Rupees</div>
+                <div id="result-box">
+                    <span id="result-value">Enter an amount to convert</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="footer">
+            <p>built by <a href="index.html">Mukesh</a></p>
+        </div>
+    </div>
+    
+    <script src="script.js"></script>
+</body>
+</html> 

@@ -3,47 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Easy USD INR Converter</title>
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <title>Mukesh's Homepage</title>
+    <link rel="stylesheet" href="home_style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Righteous&display=swap" rel="stylesheet"> <!-- Vice City style fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"> <!-- Richie Rich style font -->
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> <!-- Added back font -->
 </head>
 <body>
+    <!-- Title moved outside the container -->
+    <h1 id="main-title">
+        <span class="letter">M</span><span class="letter">u</span><span class="letter">k</span><span class="letter">e</span><span class="letter">s</span><span class="letter">h</span>
+    </h1>
+
     <div class="container">
-        <div class="header">
-            <h1>Easy USD INR Converter</h1>
-            <div class="exchange-rate">
-                <i class="fas fa-sync-alt"></i>
-                <span id="current-rate">Loading...</span>
-            </div>
-        </div>
-        
-        <div class="converter-card">
-            <div class="input-section">
-                <label for="usd-input">Enter USD amount</label>
-                <div class="input-group">
-                    <span class="currency-symbol">$</span>
-                    <input type="text" id="usd-input" placeholder="100, 10k, 1 million">
-                    <button id="convert-btn">Convert <i class="fas fa-arrow-right"></i></button>
-                </div>
-                <div class="input-examples">
-                    Try: <span class="example-pill">100</span> <span class="example-pill">5k</span> <span class="example-pill">250 k</span> <span class="example-pill">1.5 million</span> <span class="example-pill">500 billion</span>
-                </div>
-            </div>
+        <!-- <header>
             
-            <div class="result-section">
-                <div class="result-label">In Indian Rupees</div>
-                <div id="result-box">
-                    <span id="result-value">Enter an amount to convert</span>
+        </header> --> <!-- Header inside container removed -->
+
+        <main>
+            <section class="projects-section">
+                <div class="project-item">
+                    <h3><a href="converter.html">Easy USDINR Converter</a></h3>
+                    <p>A simple and quick tool to convert US Dollars (USD) to Indian Rupees (INR) using real-time exchange rates. Handles various input formats like "1 million", "50k", "2.5 billion", etc.</p>
                 </div>
-            </div>
-        </div>
-        
-        <div class="footer">
-            <p></p>
-        </div>
+                <!-- Add more project items here if needed -->
+            </section>
+        </main>
+
+        <footer>
+            <!-- Optional footer content -->
+            
+        </footer>
     </div>
-    
-    <script src="script.js"></script>
+
+    <!-- Optional: Add script later if needed for more complex animations -->
+    <!-- <script src="home_script.js"></script> -->
 </body>
 </html> 
