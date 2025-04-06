@@ -265,9 +265,8 @@ document.addEventListener('DOMContentLoaded', function() {
             return;
         }
         
-        if (!exchangeRate) {
-            exchangeRate = await fetchExchangeRate();
-        }
+        // Always fetch the exchange rate when converting
+        exchangeRate = await fetchExchangeRate();
         
         const inrAmount = usdAmount * exchangeRate;
         
@@ -366,12 +365,8 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Allow manual refresh of exchange rate
-    exchangeRateIcon.addEventListener('click', function() {
-        if (!this.classList.contains('rotating')) {
-            fetchExchangeRate();
-        }
-    });
+    // Remove manual refresh click handler - no longer needed
+    exchangeRateIcon.classList.remove('rotating');
     
     // Initialize by fetching the exchange rate
     fetchExchangeRate();
