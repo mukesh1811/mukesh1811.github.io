@@ -171,15 +171,35 @@ document.addEventListener('DOMContentLoaded', function() {
             modifiedInput = modifiedInput.replace(regex, `1 ${replacement}`);
         }
         
-        // Remove all non-numeric characters except math operators and decimal point
-        modifiedInput = modifiedInput.replace(/[^0-9.+\-*\/()]/g, '');
+        // Validation: Check for invalid characters *after* unit replacements
+        // Remove all valid numeric/math/space characters. If anything remains, it's invalid.
+        const validationCheck = modifiedInput.replace(/[\d.+\-*\/()\s]/g, '');
+        if (validationCheck.length > 0) {
+            console.error('Invalid characters remaining after unit processing:', validationCheck, 'Original input:', input);
+            return null; // Contains unrecognized characters
+        }
         
+        // Remove potentially remaining non-numeric characters (redundant after validation check, but safe)
+        modifiedInput = modifiedInput.replace(/[^0-9.+\-*\/()]/g, '');
+
+        // Prevent empty strings or just operators from being evaluated
+        if (modifiedInput.trim() === '' || /^[^0-9]+$/.test(modifiedInput.trim())) {
+             console.error('Input reduced to empty or operators only:', modifiedInput);
+             return null;
+        }
+
         try {
             // Safely evaluate the expression
             const result = Function('"use strict"; return (' + modifiedInput + ')')();
-            return isNaN(result) ? null : result;
+
+            // Check if result is a valid finite number
+            if (isNaN(result) || !isFinite(result)) {
+                 console.error('Evaluation resulted in NaN or Infinity for:', modifiedInput);
+                 return null;
+            }
+            return result; // Return the valid, finite number
         } catch (error) {
-            console.error('Error parsing input:', error);
+            console.error('Error evaluating input expression:', modifiedInput, error);
             return null;
         }
     }
