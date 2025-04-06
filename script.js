@@ -390,7 +390,7 @@ document.addEventListener('DOMContentLoaded', function() {
         
         .invalid {
             animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-            border-color: #f97316 !important;
+            border-color: #eab308 !important;
         }
         
         @keyframes shake {
@@ -402,11 +402,11 @@ document.addEventListener('DOMContentLoaded', function() {
         
         .highlight {
             background-color: #fef9c3 !important;
-            box-shadow: 0 0 0 3px rgba(251, 191, 36, 0.15);
+            box-shadow: 0 0 0 3px rgba(234, 179, 8, 0.2);
         }
         
         .example-pill.active {
-            background-color: var(--primary-color);
+            background-color: var(--accent-color);
             color: white;
         }
     `;
