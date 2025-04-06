@@ -10,8 +10,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&family=Righteous&display=swap" rel="stylesheet"> <!-- Vice City style fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet"> <!-- Richie Rich style font -->
     <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet"> <!-- Added back font -->
+    <style>
+      /* Updated playful WIP banner style to make it fixed at the top */
+      .wip-banner {
+         position: fixed;
+         top: 0;
+         /* left: 0; */
+         /* width: 100%; */
+         z-index: 9999;
+         background: linear-gradient(45deg, #ff7e5f, #feb47b);
+         padding: 10px;
+         color: transparent; /* text now blends with background */
+         font-family: 'Luckiest Guy', cursive;
+         text-align: center;
+         font-size: 1.25em;
+         animation: blink 1s infinite alternate;
+         margin: 0; /* removed auto margin */
+      }
+      @keyframes blink {
+         from { opacity: 1; }
+         to { opacity: 0.5; }
+      }
+      /* Prevent page content from being hidden beneath the fixed banner */
+      body {
+         padding-top: 50px;
+      }
+    </style>
 </head>
 <body>
+    <!-- Moved playful WIP banner to the very top attached to the ceiling -->
+    <div class="wip-banner">
+      This page is a build in progress!
+    </div>
+
     <!-- Title moved outside the container -->
     <h1 id="main-title">
         <span class="letter">M</span><span class="letter">u</span><span class="letter">k</span><span class="letter">e</span><span class="letter">s</span><span class="letter">h</span>
