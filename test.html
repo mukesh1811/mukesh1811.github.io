@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>USD to INR Converter Tests</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #4a4a4a;
+        }
+        h2 {
+            color: #3498db;
+            margin-top: 30px;
+        }
+        #test-output {
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            padding: 15px;
+            white-space: pre-wrap;
+            font-family: monospace;
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        .success {
+            color: #2ecc71;
+        }
+        .error {
+            color: #e74c3c;
+        }
+        .summary {
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        button {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            margin: 20px 0;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        .rate-input {
+            margin: 20px 0;
+            padding: 10px;
+            display: flex;
+            align-items: center;
+            background-color: #f9f9f9;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+        }
+        .rate-input label {
+            margin-right: 10px;
+            font-weight: bold;
+        }
+        .rate-input input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 100px;
+        }
+        #quick-test {
+            margin-top: 30px;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border-radius: 6px;
+            border: 1px solid #b3d8ff;
+        }
+        .test-inputs {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        .test-inputs label {
+            font-weight: bold;
+        }
+        .test-inputs input {
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            width: 120px;
+        }
+        .test-result {
+            margin-top: 15px;
+            padding: 10px;
+            background-color: white;
+            border-radius: 4px;
+            border: 1px solid #ddd;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .result-box {
+            display: flex;
+            flex-direction: column;
+        }
+        .result-box span:first-child {
+            font-size: 14px;
+            color: #666;
+        }
+        .result-box span:last-child {
+            font-size: 18px;
+            font-weight: bold;
+            color: #1e88e5;
+        }
+        .arrow {
+            color: #666;
+            font-size: 24px;
+            margin: 0 15px;
+        }
+        .hidden {
+            display: none;
+        }
+        .test-buttons {
+            display: flex;
+            gap: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>USD to INR Converter Test Suite</h1>
+    
+    <div class="rate-input">
+        <label for="exchange-rate">Current USD to INR Rate:</label>
+        <input type="number" id="exchange-rate" step="0.01" min="0" value="83.50">
+    </div>
+    
+    <!-- Quick Test Section -->
+    <div id="quick-test">
+        <h2>Quick Conversion Test</h2>
+        <div class="test-inputs">
+            <div>
+                <label for="test-usd">USD Amount:</label>
+                <input type="text" id="test-usd" placeholder="Enter USD amount">
+            </div>
+            <button id="test-convert-btn">Convert</button>
+        </div>
+        
+        <div id="test-result" class="test-result hidden">
+            <div class="result-box">
+                <span>USD Amount</span>
+                <span id="result-usd"></span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="result-box">
+                <span>INR Amount</span>
+                <span id="result-inr"></span>
+            </div>
+            <div class="arrow">→</div>
+            <div class="result-box">
+                <span>In Words</span>
+                <span id="result-words"></span>
+            </div>
+        </div>
+    </div>
+    
+    <h2>Run All Tests</h2>
+    <div class="test-buttons">
+        <button id="run-tests">Run Automated Tests</button>
+    </div>
+    
+    <div id="test-output">
+        Click "Run Tests" to start the test suite...
+    </div>
+    
+    <script>
+        // Override console.log and console.error to output to our test-output div
+        const testOutput = document.getElementById('test-output');
+        const originalLog = console.log;
+        const originalError = console.error;
+        
+        console.log = function() {
+            const args = Array.from(arguments);
+            const message = args.join(' ');
+            
+            // Check if this is a success message
+            if (message.includes('✓')) {
+                testOutput.innerHTML += `<div class="success">${message}</div>`;
+            } else {
+                testOutput.innerHTML += `<div>${message}</div>`;
+            }
+            
+            // Still log to console for debugging
+            originalLog.apply(console, arguments);
+        };
+        
+        console.error = function() {
+            const args = Array.from(arguments);
+            const message = args.join(' ');
+            
+            testOutput.innerHTML += `<div class="error">${message}</div>`;
+            
+            // Still log to console for debugging
+            originalError.apply(console, arguments);
+        };
+        
+        // Load the test script when the button is clicked
+        document.getElementById('run-tests').addEventListener('click', function() {
+            testOutput.innerHTML = ''; // Clear previous results
+            
+            // Get the exchange rate from the input
+            const exchangeRate = parseFloat(document.getElementById('exchange-rate').value);
+            
+            // Set exchange rate as a global variable for the test script to use
+            window.currentExchangeRate = exchangeRate;
+            
+            // Show the current rate being used
+            testOutput.innerHTML = `<div>Using exchange rate: ${exchangeRate} INR per USD</div>`;
+            
+            // Load the test script
+            const script = document.createElement('script');
+            script.src = 'test.js';
+            document.body.appendChild(script);
+        });
+        
+        // Quick test conversion functionality
+        document.getElementById('test-convert-btn').addEventListener('click', function() {
+            const usdInput = document.getElementById('test-usd').value;
+            const exchangeRate = parseFloat(document.getElementById('exchange-rate').value);
+            
+            // Parse USD input
+            function parseInputValue(input) {
+                if (!input || input.trim() === '') return null;
+                
+                // Convert to lowercase and remove extra spaces
+                input = input.toLowerCase().trim();
+                
+                // Remove commas from the input first
+                input = input.replace(/,/g, '');
+                
+                // Replace common terms with their numerical equivalents
+                const replacements = {
+                    'k': '* 1000',
+                    'thousand': '* 1000',
+                    'million': '* 1000000',
+                    'mn': '* 1000000',
+                    'billion': '* 1000000000',
+                    'bn': '* 1000000000',
+                    'crore': '* 10000000',
+                    'crores': '* 10000000'
+                };
+                
+                // Apply replacements
+                for (const [term, replacement] of Object.entries(replacements)) {
+                    const regex = new RegExp(`\\s*${term}\\b`, 'gi');
+                    input = input.replace(regex, replacement);
+                }
+                
+                // Remove all non-numeric characters except math operators and decimal point
+                input = input.replace(/[^0-9.+\-*\/()]/g, '');
+                
+                try {
+                    // Safely evaluate the expression
+                    const result = Function('"use strict"; return (' + input + ')')();
+                    return isNaN(result) ? null : result;
+                } catch (error) {
+                    console.error('Error parsing input:', error);
+                    return null;
+                }
+            }
+            
+            // Format large numbers to Indian system
+            function formatToIndianSystem(num) {
+                if (num === null || isNaN(num)) return 'Invalid input';
+                
+                function detailedIndianFormat(n) {
+                    if (n < 1000) {
+                        return n.toString();
+                    }
+                    
+                    const parts = [];
+                    
+                    if (n >= 1000000000) {
+                        // Calculate thousands
+                        const thousandCrores = Math.floor(n / 10000000000);
+                        if (thousandCrores > 0) {
+                            parts.push(`${thousandCrores} thousand`);
+                        }
+                        
+                        // Calculate remaining crores
+                        const remainingCrores = Math.floor((n % 10000000000) / 10000000);
+                        if (remainingCrores > 0) {
+                            parts.push(`${remainingCrores} ${remainingCrores === 1 ? 'crore' : 'crores'}`);
+                        }
+                        
+                        n = n % 10000000;
+                    } else if (n >= 10000000) {
+                        const crores = Math.floor(n / 10000000);
+                        parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
+                        n = n % 10000000;
+                    }
+                    
+                    if (n >= 100000) {
+                        const lakhs = Math.floor(n / 100000);
+                        n = n % 100000;
+                        parts.push(`${lakhs} ${lakhs === 1 ? 'lakh' : 'lakhs'}`);
+                    }
+                    
+                    if (n >= 1000) {
+                        const thousands = Math.floor(n / 1000);
+                        n = n % 1000;
+                        parts.push(`${thousands} thousand`);
+                    }
+                    
+                    if (n > 0) {
+                        parts.push(n.toString());
+                    }
+                    
+                    return parts.join(' ');
+                }
+                
+                return detailedIndianFormat(num);
+            }
+            
+            // Format with commas (American system)
+            function formatWithCommas(value) {
+                if (typeof value !== 'string') {
+                    value = value.toString();
+                }
+                
+                // Skip empty values or values with text indicators
+                if (!value || /[a-zA-Z]/.test(value)) return value;
+                
+                // Remove existing commas first
+                let cleanValue = value.replace(/,/g, '');
+                
+                // Check if it's a valid number
+                if (!/^\d*\.?\d*$/.test(cleanValue)) return value;
+                
+                // Split by decimal point
+                let parts = cleanValue.split('.');
+                let wholePart = parts[0];
+                let decimalPart = parts.length > 1 ? '.' + parts[1] : '';
+                
+                // Add commas to the whole part
+                return wholePart.replace(/\B(?=(\d{3})+(?!\d))/g, ',') + decimalPart;
+            }
+            
+            // Format with Indian system commas
+            function addIndianCommas(x) {
+                x = x.toString();
+                let afterPoint = '';
+                
+                if (x.includes('.')) {
+                    afterPoint = x.substring(x.indexOf('.'));
+                    x = x.substring(0, x.indexOf('.'));
+                }
+                
+                let lastThree = x.substring(x.length - 3);
+                let otherNumbers = x.substring(0, x.length - 3);
+                
+                if (otherNumbers !== '') {
+                    lastThree = ',' + lastThree;
+                }
+                
+                let res = otherNumbers.replace(/\B(?=(\d{2})+(?!\d))/g, ",") + lastThree + afterPoint;
+                return res;
+            }
+            
+            // Process the conversion
+            const usdValue = parseInputValue(usdInput);
+            
+            if (usdValue === null) {
+                alert('Please enter a valid USD amount');
+                return;
+            }
+            
+            const inrValue = usdValue * exchangeRate;
+            const inrWords = formatToIndianSystem(Math.round(inrValue));
+            
+            // Update result display
+            document.getElementById('result-usd').textContent = formatWithCommas(usdValue.toFixed(2));
+            document.getElementById('result-inr').textContent = '₹' + addIndianCommas(inrValue.toFixed(2));
+            document.getElementById('result-words').textContent = inrWords;
+            
+            // Show the result
+            document.getElementById('test-result').classList.remove('hidden');
+        });
+    </script>
+</body>
+</html> 

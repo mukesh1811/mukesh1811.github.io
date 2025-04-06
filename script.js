@@ -148,22 +148,35 @@ document.addEventListener('DOMContentLoaded', function() {
             'mn': '* 1000000',
             'billion': '* 1000000000',
             'bn': '* 1000000000',
+            'trillion': '* 1000000000000',
             'crore': '* 10000000',
             'crores': '* 10000000'
         };
         
-        // Apply replacements
+        // Apply replacements - FIXED: Improved regex for better pattern matching
+        let modifiedInput = input;
+        
+        // Handle cases where number precedes the unit (e.g., "1billion" or "1 billion")
         for (const [term, replacement] of Object.entries(replacements)) {
-            const regex = new RegExp(`\\s*${term}\\b`, 'gi');
-            input = input.replace(regex, replacement);
+            // Match both with and without space between the number and term
+            // e.g., "1billion" and "1 billion"
+            const regex = new RegExp(`(\\d+(?:\\.\\d+)?)\\s*${term}\\b`, 'gi');
+            modifiedInput = modifiedInput.replace(regex, `$1 ${replacement}`);
+        }
+        
+        // Handle cases where the term appears without a number prefix (e.g., "billion")
+        // Assume the value is 1 in such cases
+        for (const [term, replacement] of Object.entries(replacements)) {
+            const regex = new RegExp(`^\\s*${term}\\b`, 'gi');
+            modifiedInput = modifiedInput.replace(regex, `1 ${replacement}`);
         }
         
         // Remove all non-numeric characters except math operators and decimal point
-        input = input.replace(/[^0-9.+\-*\/()]/g, '');
+        modifiedInput = modifiedInput.replace(/[^0-9.+\-*\/()]/g, '');
         
         try {
             // Safely evaluate the expression
-            const result = Function('"use strict"; return (' + input + ')')();
+            const result = Function('"use strict"; return (' + modifiedInput + ')')();
             return isNaN(result) ? null : result;
         } catch (error) {
             console.error('Error parsing input:', error);
@@ -209,17 +222,30 @@ document.addEventListener('DOMContentLoaded', function() {
                 // Calculate thousands
                 const thousandCrores = Math.floor(n / 10000000000);
                 if (thousandCrores > 0) {
-                    parts.push(`${thousandCrores} thousand`);
+                    // Calculate remaining crores to determine formatting
+                    const remainingCrores = Math.floor((n % 10000000000) / 10000000);
+                    
+                    // Format differently based on whether it's an exact multiple of 10 billion
+                    if (remainingCrores === 0 && n % 10000000 === 0) {
+                        // Exact multiples like 10000000000 should be "1 thousand crores"
+                        parts.push(`${thousandCrores} thousand crores`);
+                    } else {
+                        // Numbers like 12345678901 should be "1 thousand 234 crores..."
+                        parts.push(`${thousandCrores} thousand`);
+                        
+                        if (remainingCrores > 0) {
+                            parts.push(`${remainingCrores} ${remainingCrores === 1 ? 'crore' : 'crores'}`);
+                        }
+                    }
+                    
+                    // Handle remaining lakhs, thousands, etc.
+                    n = n % 10000000;
+                } else {
+                    // Handle regular crores (millions)
+                    const crores = Math.floor(n / 10000000);
+                    parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
+                    n = n % 10000000;
                 }
-                
-                // Calculate remaining crores (in hundreds)
-                const remainingCrores = Math.floor((n % 10000000000) / 10000000);
-                if (remainingCrores > 0) {
-                    parts.push(`${remainingCrores} ${remainingCrores === 1 ? 'crore' : 'crores'}`);
-                }
-                
-                // Handle remaining lakhs, thousands, etc.
-                n = n % 10000000;
             } else if (n >= 10000000) {
                 // Handle regular crores (millions)
                 const crores = Math.floor(n / 10000000);
