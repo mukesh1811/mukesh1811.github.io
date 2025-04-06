@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Number Format Test</title>
+</head>
+<body>
+    <h1>Number Format Test</h1>
+    <div id="result"></div>
+
+    <script>
+        // Function to format number to Indian system (with thousand, lakh, crore)
+        function formatToIndianSystem(num) {
+            if (num === null || isNaN(num)) return 'Invalid input';
+            
+            // Break down number into word parts with correct handling of thousand crores
+            function detailedIndianFormat(n) {
+                if (n < 1000) {
+                    return n.toString();
+                }
+                
+                const parts = [];
+                
+                // First, handle numbers in the thousands of crores (tens of billions)
+                if (n >= 1000000000) {
+                    // Calculate thousands
+                    const thousandCrores = Math.floor(n / 10000000000);
+                    if (thousandCrores > 0) {
+                        parts.push(`${thousandCrores} thousand`);
+                    }
+                    
+                    // Calculate remaining crores (in hundreds)
+                    const remainingCrores = Math.floor((n % 10000000000) / 10000000);
+                    if (remainingCrores > 0) {
+                        parts.push(`${remainingCrores} ${remainingCrores === 1 ? 'crore' : 'crores'}`);
+                    }
+                    
+                    // Handle remaining lakhs, thousands, etc.
+                    n = n % 10000000;
+                } else if (n >= 10000000) {
+                    // Handle regular crores (millions)
+                    const crores = Math.floor(n / 10000000);
+                    parts.push(`${crores} ${crores === 1 ? 'crore' : 'crores'}`);
+                    n = n % 10000000;
+                }
+                
+                // Extract lakhs (hundred thousands)
+                if (n >= 100000) {
+                    const lakhs = Math.floor(n / 100000);
+                    n = n % 100000;
+                    parts.push(`${lakhs} ${lakhs === 1 ? 'lakh' : 'lakhs'}`);
+                }
+                
+                // Extract thousands
+                if (n >= 1000) {
+                    const thousands = Math.floor(n / 1000);
+                    n = n % 1000;
+                    parts.push(`${thousands} thousand`);
+                }
+                
+                // Add remaining units
+                if (n > 0) {
+                    parts.push(n.toString());
+                }
+                
+                return parts.join(' ');
+            }
+            
+            return detailedIndianFormat(num);
+        }
+
+        // Test values
+        const testValues = [
+            1234567,
+            12345678,
+            123456789,
+            1234567890,
+            12345678901,
+            85481388800, // The specific value from the example (1 billion USD at 85.48 rate)
+        ];
+
+        const resultDiv = document.getElementById('result');
+        
+        // Display test results
+        testValues.forEach(value => {
+            const formatted = formatToIndianSystem(value);
+            resultDiv.innerHTML += `<p><strong>${value.toLocaleString()}</strong>: ${formatted}</p>`;
+        });
+    </script>
+</body>
+</html> 
