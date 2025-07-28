@@ -1,634 +1,282 @@
-<!-- /friday/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>FRIDAY – Vibe Analytics Assisstant</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap">
-  <style>
-    :root {
-      --brand-yellow: #FFD43B;
-      --brand-orange: #FF7A00;
-      --brand-gradient: linear-gradient(135deg, #FFD43B 0%, #FF7A00 100%);
-      --bg-light: #FFFDF7;
-      --text-dark: #1A1A1A;
-      --text-muted: #6B7280;
-      --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-      --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-      --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      padding: 0;
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #FFFDF7 0%, #FEFCF0 100%);
-      color: var(--text-dark);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 2rem;
-    }
-
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 6rem 1rem 4rem;
-      position: relative;
-      overflow: hidden;
-      background: linear-gradient(135deg, #1a0f00 0%, #2d1b0a 50%, #3d2b1a 100%);
-      color: white;
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .hero::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        radial-gradient(circle at 20% 30%, rgba(255, 122, 0, 0.15) 0%, transparent 50%),
-        radial-gradient(circle at 80% 70%, rgba(255, 212, 59, 0.1) 0%, transparent 50%),
-        radial-gradient(circle at 50% 50%, rgba(255, 165, 0, 0.08) 0%, transparent 70%);
-      z-index: 1;
-    }
-
-    .hero::after {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      background: 
-        url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,165,0,0.05)" stroke-width="0.5"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
-      z-index: 1;
-    }
-
-    .hero-content {
-      position: relative;
-      z-index: 2;
-      max-width: 900px;
-    }
-
-    .hero h1 {
-      font-size: clamp(4rem, 10vw, 8rem);
-      margin-bottom: 2rem;
-      font-weight: 900;
-      background: linear-gradient(135deg, #ff7a00 0%, #ffd43b 50%, #ffa500 100%);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-      animation: fluidGlow 3s ease-in-out infinite alternate;
-      text-shadow: 0 0 40px rgba(255, 122, 0, 0.6);
-      letter-spacing: 0.05em;
-      line-height: 0.9;
-      font-family: 'Inter', sans-serif;
-      transform: perspective(1000px) rotateX(5deg);
-    }
-
-    .hero-subtitle {
-      font-size: clamp(1.2rem, 3vw, 1.6rem);
-      color: #ffd43b;
-      font-weight: 700;
-      margin-bottom: 1rem;
-      text-transform: uppercase;
-      letter-spacing: 0.15em;
-      animation: fluidPulse 2.5s ease-in-out infinite;
-      text-shadow: 0 0 20px rgba(255, 212, 59, 0.5);
-    }
-
-    .hero p {
-      font-size: clamp(1.3rem, 3vw, 1.8rem);
-      color: #ffe4b3;
-      max-width: 800px;
-      margin: 0 auto 3rem;
-      font-weight: 500;
-      line-height: 1.5;
-      animation: fadeInUp 0.8s ease-out 0.2s both;
-    }
-
-    .tech-badge {
-      display: inline-block;
-      background: linear-gradient(135deg, rgba(255, 122, 0, 0.2) 0%, rgba(255, 212, 59, 0.2) 100%);
-      border: 2px solid rgba(255, 212, 59, 0.4);
-      padding: 0.75rem 1.5rem;
-      border-radius: 25px;
-      font-size: 0.9rem;
-      color: #ffd43b;
-      margin-bottom: 2.5rem;
-      backdrop-filter: blur(15px);
-      animation: fluidFloat 4s ease-in-out infinite;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.1em;
-    }
-
-    .cta-buttons {
-      display: flex;
-      justify-content: center;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      animation: fadeInUp 0.8s ease-out 0.4s both;
-    }
-
-    .cta-buttons button {
-      font-size: 1.1rem;
-      padding: 1.2rem 2.5rem;
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      font-weight: 700;
-      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-      position: relative;
-      overflow: hidden;
-      box-shadow: 0 0 25px rgba(255, 122, 0, 0.4);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-    }
-
-    .cta-buttons button:hover {
-      transform: translateY(-3px) scale(1.05);
-      box-shadow: 0 0 40px rgba(255, 122, 0, 0.6);
-    }
-
-    .cta-buttons button:active {
-      transform: translateY(-1px) scale(1.02);
-    }
-
-    .cta-loop {
-      background: linear-gradient(135deg, #ff7a00 0%, #ffd43b 100%);
-      color: #1a0f00;
-      position: relative;
-      border: 2px solid rgba(255, 212, 59, 0.6);
-    }
-
-    .cta-loop::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: -100%;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.4), transparent);
-      transition: left 0.6s;
-    }
-
-    .cta-loop:hover::before {
-      left: 100%;
-    }
-
-    /* Section Styling */
-    section {
-      margin-top: 5rem;
-      animation: fadeInUp 0.8s ease-out;
-    }
-
-    h2 {
-      font-size: clamp(1.8rem, 3vw, 2.5rem);
-      margin-bottom: 1.5rem;
-      font-weight: 700;
-      color: var(--text-dark);
-    }
-
-    p {
-      font-size: 1.125rem;
-      line-height: 1.7;
-      color: var(--text-muted);
-      margin-bottom: 1.5rem;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-    }
-
-    ul li {
-      position: relative;
-      padding-left: 2rem;
-      margin-bottom: 1rem;
-      font-size: 1.1rem;
-      line-height: 1.6;
-    }
-
-    ul li::before {
-      content: '→';
-      position: absolute;
-      left: 0;
-      color: var(--brand-orange);
-      font-weight: 600;
-    }
-
-    /* Section Cards */
-    .problem-section {
-      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
-      padding: 3rem 2.5rem;
-      border-radius: 20px;
-      margin: 3rem 0;
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-      backdrop-filter: blur(10px);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .problem-section:hover {
-      transform: translateY(-4px);
-      box-shadow: var(--shadow-lg);
-    }
-
-    .contrarian-section {
-      background: linear-gradient(135deg, #fff7ed 0%, #fed7aa 100%);
-      padding: 3rem 2.5rem;
-      border-radius: 20px;
-      margin: 3rem 0;
-      box-shadow: var(--shadow-md);
-      border-left: 6px solid var(--brand-orange);
-      position: relative;
-      overflow: hidden;
-    }
-
-    .contrarian-section::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      right: 0;
-      width: 100px;
-      height: 100px;
-      background: radial-gradient(circle, rgba(255, 122, 0, 0.1) 0%, transparent 70%);
-      border-radius: 50%;
-    }
-
-    .solution-section {
-      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
-      padding: 3rem 2.5rem;
-      border-radius: 20px;
-      margin: 3rem 0;
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .proof-section {
-      background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
-      padding: 3rem 2.5rem;
-      border-radius: 20px;
-      margin: 3rem 0;
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(255, 255, 255, 0.8);
-    }
-
-    .prototype-placeholder {
-      background: rgba(255, 255, 255, 0.7);
-      border: 2px dashed #cbd5e1;
-      padding: 2.5rem;
-      border-radius: 16px;
-      text-align: center;
-      font-size: 1.1rem;
-      color: var(--text-muted);
-      margin-top: 2rem;
-      backdrop-filter: blur(10px);
-      transition: all 0.3s ease;
-    }
-
-    .prototype-placeholder:hover {
-      border-color: var(--brand-orange);
-      background: rgba(255, 255, 255, 0.9);
-    }
-
-    /* Add dark section theme for consistency */
-    .section-dark {
-      background: linear-gradient(135deg, #1a0f00 0%, #2d1b0a 50%, #3d2b1a 100%);
-      color: #fffbe6;
-      border-radius: 20px;
-      box-shadow: var(--shadow-md);
-      border: 1px solid rgba(255, 212, 59, 0.15);
-      padding: 3rem 2.5rem;
-      margin: 3rem 0;
-      position: relative;
-      overflow: hidden;
-    }
-    .section-dark h2 {
-      color: #ffd43b;
-      text-shadow: 0 0 18px rgba(255, 212, 59, 0.25);
-    }
-    .section-dark p,
-    .section-dark ul li {
-      color: #ffe4b3;
-    }
-    .section-dark ul li::before {
-      color: #ffd43b;
-    }
-    .section-dark .prototype-placeholder {
-      background: rgba(30, 20, 0, 0.5);
-      border: 2px dashed #ffd43b;
-      color: #ffd43b;
-    }
-    .section-dark .prototype-placeholder:hover {
-      background: rgba(30, 20, 0, 0.7);
-      border-color: #ff7a00;
-    }
-
-    /* Animations */
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(30px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    /* Sci-fi Animations */
-    @keyframes glow {
-      0% {
-        text-shadow: 0 0 30px rgba(0, 255, 255, 0.5);
-      }
-      100% {
-        text-shadow: 0 0 40px rgba(0, 255, 255, 0.8), 0 0 60px rgba(0, 255, 255, 0.3);
-      }
-    }
-
-    @keyframes pulse {
-      0%, 100% {
-        opacity: 0.7;
-      }
-      50% {
-        opacity: 1;
-      }
-    }
-
-    @keyframes float {
-      0%, 100% {
-        transform: translateY(0px);
-      }
-      50% {
-        transform: translateY(-10px);
-      }
-    }
-
-    /* Holographic effect for sections */
-    .holographic-border {
-      position: relative;
-    }
-
-    .holographic-border::before {
-      content: '';
-      position: absolute;
-      top: -2px;
-      left: -2px;
-      right: -2px;
-      bottom: -2px;
-      background: linear-gradient(45deg, #00ffff, #ff7a00, #ffd43b, #00ffff);
-      border-radius: 20px;
-      z-index: -1;
-      animation: borderGlow 3s linear infinite;
-    }
-
-    @keyframes borderGlow {
-      0% {
-        background-position: 0% 50%;
-      }
-      100% {
-        background-position: 100% 50%;
-      }
-    }
-
-    /* Fluid Animations */
-    @keyframes fluidGlow {
-      0% {
-        text-shadow: 0 0 40px rgba(255, 122, 0, 0.6);
-        transform: perspective(1000px) rotateX(5deg) scale(1);
-      }
-      50% {
-        text-shadow: 0 0 60px rgba(255, 122, 0, 0.8), 0 0 80px rgba(255, 212, 59, 0.4);
-        transform: perspective(1000px) rotateX(5deg) scale(1.02);
-      }
-      100% {
-        text-shadow: 0 0 50px rgba(255, 212, 59, 0.7);
-        transform: perspective(1000px) rotateX(5deg) scale(1);
-      }
-    }
-
-    @keyframes fluidPulse {
-      0%, 100% {
-        opacity: 0.8;
-        transform: scale(1);
-      }
-      50% {
-        opacity: 1;
-        transform: scale(1.05);
-      }
-    }
-
-    @keyframes fluidFloat {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      25% {
-        transform: translateY(-8px) rotate(1deg);
-      }
-      50% {
-        transform: translateY(-12px) rotate(0deg);
-      }
-      75% {
-        transform: translateY(-6px) rotate(-1deg);
-      }
-    }
-
-    /* Footer */
-    footer {
-      margin-top: 6rem;
-      text-align: center;
-      font-size: 0.9rem;
-      color: var(--text-muted);
-      padding: 2rem 0;
-      border-top: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    footer a {
-      color: var(--brand-orange);
-      text-decoration: none;
-      font-weight: 600;
-      transition: color 0.3s ease;
-    }
-
-    footer a:hover {
-      color: var(--brand-yellow);
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-      .container {
-        padding: 0 1rem;
-      }
-      
-      .hero {
-        padding: 4rem 1rem 2rem;
-      }
-      
-      .problem-section,
-      .contrarian-section,
-      .solution-section,
-      .proof-section {
-        padding: 2rem 1.5rem;
-        margin: 2rem 0;
-      }
-      
-      .cta-buttons button {
-        padding: 0.875rem 1.5rem;
-        font-size: 0.9rem;
-      }
-    }
-
-    /* Scroll animations */
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      transition: all 0.6s ease;
-    }
-
-    .fade-in.visible {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>F.R.I.D.A.Y - Vibe Analytics Assistant</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
 </head>
 <body>
-  <div class="container">
-    <!-- HERO SECTION -->
-    <div class="hero">
-      <div class="hero-content">
-        <div class="tech-badge">
-          AI-Powered Analytics Assistant
+    <div class="stars"></div>
+    <div class="twinkling"></div>
+    
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <span class="logo-text">F.R.I.D.A.Y</span>
+                <div class="logo-glow"></div>
+            </div>
+            <ul class="nav-menu">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#why">Why</a></li>
+                <li><a href="#what">What</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#workflow">Workflow</a></li>
+                <li><a href="#contact">Stay Updated</a></li>
+            </ul>
+            <div class="hamburger">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
         </div>
-        <h1>F.R.I.D.A.Y</h1>
-        <p class="hero-subtitle">Hypothesis to Insights. In minutes!</p>
-        <p>Helping data professionals chat their way to insights discovery and hypothesis validation.</p>
-        <div class="cta-buttons">
-          <button class="cta-loop">🚀 Launching Soon..</button>
+    </nav>
+
+    <section id="home" class="hero">
+        <div class="hero-container">
+            <div class="hero-content">
+                <div class="hero-badge">
+                    <span class="badge-text">AI-NATIVE ANALYTICS ASSISTANT</span>
+                </div>
+                <h1 class="hero-title">
+                    <span class="title-line">F.R.I.D.A.Y</span>
+                    <span class="title-subtitle">First useful insight - In minutes!</span>
+                </h1>
+                <p class="hero-description">
+                    Empowers data professionals to go from hypothesis to insight just by chatting in natural language. <span class="highlight">In minutes!</span>
+                </p>
+                <div class="hero-cta">
+                    <button class="cta-primary">
+                        <span>Launching Soon</span>
+                        <i class="fas fa-rocket"></i>
+                    </button>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-
-    <!-- PROBLEM SECTION -->
-    <section class="problem-section section-dark fade-in">
-      <h2>The Problem: Self-Serve Analytics Is Failing</h2>
-      <p>Despite smarter BI tools, executives still request ad hoc analyses. Data professionals are stuck in a cycle of reactive reporting instead of proactive insights discovery.</p>
-      <ul>
-        <li>Self-serve is a myth - execs still ask for ad hoc analyses</li>
-        <li>Data teams spend more time on reports than insights</li>
-        <li>Current tools don't understand business context</li>
-        <li>No co-discovery process for data professionals</li>
-      </ul>
     </section>
 
-    <!-- CONTRARIAN VIEW SECTION -->
-    <section class="contrarian-section section-dark fade-in">
-      <h2>The Contrarian View: Empower Data Professionals, Not Autonomous Agents</h2>
-      <p>While everyone is building autonomous, agentic, generative business intelligence solutions, we believe the real opportunity is empowering data professionals with intelligent assistance.</p>
-      <ul>
-        <li>Data pros need an intelligent assistant that understands data semantics and business context</li>
-        <li>Co-discovery at the speed of thought, not replacement</li>
-        <li>Human expertise + AI assistance &gt; Pure automation</li>
-        <li>Focus on insights discovery, not just query answering</li>
-      </ul>
+    <section id="why" class="why-section">
+        <div class="container">
+            <h2 class="section-title">The Why</h2>
+            <div class="why-grid">
+                <div class="why-card">
+                    <div class="card-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3>Self-Serve is a Myth</h3>
+                    <p>Execs will be asking for analyses to data professionals even with Generative Business Intelligence Systems. So empowering the data professionals is the way to go.</p>
+                </div>
+                <div class="why-card">
+                    <div class="card-icon">
+                        <i class="fas fa-comments"></i>
+                    </div>
+                    <h3>Q&A Interface is a Momentum Killer</h3>
+                    <p>Analysis does not stop with an answer. It needs a story. Also before the question, there is a hypothesis. Strapping on a chat-like interface is inappropriate.</p>
+                </div>
+                <div class="why-card">
+                    <div class="card-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Forced AI Add-ons</h3>
+                    <p>AI breakthroughs demand analytics be reimagined from the ground up—not just patched onto old BI systems.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- SOLUTION SECTION -->
-    <section class="solution-section section-dark fade-in">
-      <h2>The Solution: FRIDAY - Your Analytics Co-Pilot</h2>
-      <p>FRIDAY is a Gen AI-powered Analytics Assistant that helps you co-discover insights and validate hypotheses from tabular data. Fast.</p>
-      <ul>
-        <li>A suite of specialist agents for queries, code generation, and visualizations</li>
-        <li>Orchestrated by an intelligent assistant focused on insights co-discovery</li>
-        <li>Not just reactive SQL Q&amp;A - proactive suggestions and recommendations</li>
-        <li>Understands your goals and provides contextual guidance</li>
-      </ul>
+    <section id="what" class="what-section">
+        <div class="container">
+            <h2 class="section-title">The What</h2>
+            <div class="what-steps">
+                <div class="what-step">
+                    <div class="what-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>Deep Integration</h3>
+                    <p>Deeply integrates and understands your data semantics, business context and guide data professionals to insights discovery in proactive manner</p>
+                </div>
+                <div class="what-step">
+                    <div class="what-icon">
+                        <i class="fas fa-user-tie"></i>
+                    </div>
+                    <h3>Empower Data Professionals</h3>
+                    <p>F.R.I.D.A.Y handles the mundane and tangled data work, so data professionals can focus on analyzing, uncovering insights, and driving smarter decisions.</p>
+                </div>
+                <div class="what-step">
+                    <div class="what-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Collaborative Canvas</h3>
+                    <p>Collaborative canvas for data professionals to co-analyze data, discover insights and validate hypothesis with the Analytics Assistant at the speed of thought</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- PROOF SECTION -->
-    <section class="proof-section section-dark fade-in">
-      <h2>Proof: Evidence That This Works</h2>
-      <div class="prototype-placeholder">
-        [PLACEHOLDER: Testimonials from data professionals]
-      </div>
-      <div class="prototype-placeholder">
-        [PLACEHOLDER: Case studies and success metrics]
-      </div>
-      <div class="prototype-placeholder">
-        [PLACEHOLDER: Integration capabilities and partnerships]
-      </div>
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Core Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-brain"></i>
+                    </div>
+                    <h3>The Brain</h3>
+                    <p>Deep context layer that understands your data semantics and business context. Easy to modify with automatic memory updates.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-palette"></i>
+                    </div>
+                    <h3>Collaborative Canvas</h3>
+                    <p>"Vibe"-analyze data and co-discover insights with the intelligent assistant in an intuitive collaborative workspace.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-code-branch"></i>
+                    </div>
+                    <h3>Hypothesis Branching</h3>
+                    <p>Explore multiple analysis paths from any checkpoint. Never lose your train of thought with multiple branches.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-folder-open"></i>
+                    </div>
+                    <h3>Project Workspace</h3>
+                    <p>Share, persist, and organize your analytics projects. Collaborate seamlessly with version control and project management.</p>
+                </div>
+                <div class="feature-card ai-agent">
+                    <div class="ai-badge" title="AI Agent">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-icon">
+                        <i class="fas fa-target"></i>
+                    </div>
+                    <h3>Goal-Oriented Assistant</h3>
+                    <p>State-of-the-art reasoning model. Proactive recommendations and multi step planning. Breaks down complex hypothesis or questions into small chunks of metrics and answers with a cohesive story. </p>
+                </div>
+                <div class="feature-card ai-agent">
+                    <div class="ai-badge" title="AI Agent">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-icon">
+                        <i class="fas fa-database"></i>
+                    </div>
+                    <h3>Advanced NL2SQL</h3>
+                    <p>State-of-the-art text-to-SQL model that translates natural language into precise database queries.</p>
+                </div>
+                <div class="feature-card ai-agent">
+                    <div class="ai-badge" title="AI Agent">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-area"></i>
+                    </div>
+                    <h3>Data Visualization Agent</h3>
+                    <p>Advanced visualization agent that automatically creates compelling charts and graphs from your data insights.</p>
+                </div>
+                <div class="feature-card ai-agent">
+                    <div class="ai-badge" title="AI Agent">
+                        <i class="fas fa-robot"></i>
+                    </div>
+                    <div class="feature-icon">
+                        <i class="fas fa-cogs"></i>
+                    </div>
+                    <h3>Data Analysis Agent</h3>
+                    <p>Advanced data transformation and analysis agent that handles complex statistical operations and data preparation.</p>
+                </div>
+                
+            </div>
+        </div>
     </section>
 
-    <section class="fade-in section-dark" style="text-align:center;">
-      <div class="cta-buttons">
-        <button class="cta-loop">👀 Stay in loop</button>
-      </div>
+    <section id="workflow" class="workflow-section">
+        <div class="container">
+            <h2 class="section-title">Built for the Flow</h2>
+            <div class="workflow-steps">
+                <div class="step">
+                    <div class="step-number">01</div>
+                    <h3>Hypothesis</h3>
+                    <p>Start with your hypothesis</p>
+                    <p>F.R.I.D.A.Y already knows your business and data semantics. With just a simple one time setup.</p>
+                </div>
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="step">
+                    <div class="step-number">02</div>
+                    <h3>Analysis</h3>
+                    <p>F.R.I.D.A.Y proactively guides you through data exploration. With deep  understanding of your data semantics and business context, it is already suggesting the metrics and interactions for you to explore</p>
+                </div>
+                <div class="step-arrow">
+                    <i class="fas fa-arrow-right"></i>
+                </div>
+                <div class="step">
+                    <div class="step-number">03</div>
+                    <h3>Insight</h3>
+                    <p>Unleash breakthrough insights side-by-side with F.R.I.D.A.Y—collaborate in a futuristic canvas and turn questions into “aha!” moments at lightspeed.</p>
+                </div>
+            </div>
+        </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
-      Build In-Progress by <a href="https://www.linkedin.com/in/mukesh1811" target="_blank" rel="noopener noreferrer">Mukesh KG</a>
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <div class="launch-content">
+                <div class="launch-badge">
+                    <span class="launch-text">LAUNCHING SOON</span>
+                </div>
+                <h2 class="launch-title">Interested?</h2>
+                <p class="launch-description">Be among the first to experience the future of AI-native analytics. Join our waitlist and stay up to date on the progress.</p>
+                <div class="waitlist-form">
+                    <form>
+                        <div class="form-group">
+                            <input type="email" placeholder="Enter your email" required>
+                        </div>
+                        <button type="submit" class="waitlist-btn">
+                            <span>Stay Updated</span>
+                            <i class="fas fa-rocket"></i>
+                        </button>
+                    </form>
+                </div>
+                <div class="launch-features">
+                    <div class="launch-feature">
+                        <i class="fas fa-gift"></i>
+                        <span>Early Access</span>
+                    </div>
+                    <div class="launch-feature">
+                        <i class="fas fa-bell"></i>
+                        <span>Launch Notifications</span>
+                    </div>
+                    <div class="launch-feature">
+                        <i class="fas fa-users"></i>
+                        <span>Exclusive Community</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="container">
+            <!-- <div class="footer-content">
+                <div class="footer-logo">
+                    <span>FRIDAY</span>
+                </div>
+                <div class="footer-links">
+                    <a href="#privacy">Privacy</a>
+                    <a href="#terms">Terms</a>
+                    <a href="#support">Support</a>
+                </div>
+            </div> -->
+            <div class="footer-bottom">
+                <p>Built with ❤️ by Data Scientist. For Data Scientists.</p>
+            </div>
+        </div>
     </footer>
-  </div>
 
-  <script>
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -50px 0px'
-    };
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        }
-      });
-    }, observerOptions);
-
-    // Observe all fade-in elements
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observer.observe(el);
-    });
-
-    // Add smooth scrolling for anchor links
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        const target = document.querySelector(this.getAttribute('href'));
-        if (target) {
-          target.scrollIntoView({
-            behavior: 'smooth',
-            block: 'start'
-          });
-        }
-      });
-    });
-  </script>
+    <script src="script.js"></script>
 </body>
-</html>
+</html> 
