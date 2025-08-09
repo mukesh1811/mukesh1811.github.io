@@ -192,6 +192,20 @@ document.addEventListener('DOMContentLoaded', function() {
     const ctaButtons = document.querySelectorAll('.cta-primary, .cta-secondary');
     ctaButtons.forEach(button => {
         button.addEventListener('click', function(e) {
+            // Only prevent default for buttons without href or with internal links
+            const href = this.getAttribute('href');
+            
+            // If it's an external link, let it proceed normally
+            if (href && (href.startsWith('http') || href.startsWith('mailto:'))) {
+                // Add click animation for external links
+                this.style.transform = 'scale(0.95)';
+                setTimeout(() => {
+                    this.style.transform = 'scale(1)';
+                }, 150);
+                return; // Allow the link to open normally
+            }
+            
+            // Prevent default for internal functionality only
             e.preventDefault();
             
             if (this.textContent.includes('Launch')) {
