@@ -83,6 +83,7 @@ body {
     position: relative;
     display: flex;
     align-items: center;
+    z-index: 1002;
 }
 
 .logo-text {
@@ -867,6 +868,30 @@ body {
 
 /* Responsive Design */
 @media (max-width: 768px) {
+    .nav-container {
+        justify-content: center;
+        position: relative;
+        padding: 0 1rem;
+    }
+    
+    .logo {
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 1003;
+    }
+    
+    .logo-text {
+        font-size: 1.5rem;
+        letter-spacing: 2px;
+    }
+    
+    .hamburger {
+        position: absolute;
+        right: 1rem;
+        z-index: 1002;
+    }
+    
     .nav-menu {
         position: fixed;
         top: 0;
@@ -1025,6 +1050,19 @@ body {
 @media (max-width: 480px) {
     .container {
         padding: 0 1rem;
+    }
+    
+    .nav-container {
+        padding: 0 0.5rem;
+    }
+    
+    .logo-text {
+        font-size: 1.3rem;
+        letter-spacing: 1px;
+    }
+    
+    .hamburger {
+        right: 0.5rem;
     }
     
     .hero {
