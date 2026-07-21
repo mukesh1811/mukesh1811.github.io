@@ -1,0 +1,25 @@
+[
+  {
+    "title": "Easy USDINR Converter",
+    "description": "Convert USD amounts into INR with Indian number formatting.",
+    "url": "/converter/"
+  },
+  {
+    "title": "Em Dash",
+    "description": "just write",
+    "url": "https://mukesh1811.github.io/em-dash",
+    "repository": "em-dash"
+  },
+  {
+    "title": "Llm Group Chat",
+    "description": "chat with a group of custom llms",
+    "url": "https://mukesh1811.github.io/llm-group-chat/#/info",
+    "repository": "llm-group-chat"
+  },
+  {
+    "title": "Callerpe Landing",
+    "description": "Explore this project.",
+    "url": "https://mukesh1811.github.io/callerpe-landing",
+    "repository": "callerpe-landing"
+  }
+]
