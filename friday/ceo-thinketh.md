@@ -1,7 +1,7 @@
-fuck
+# Friday
 
-*fuck* 
+## biz plan
 
-**fuck**
+## journal
 
-***fuck***
+#### <day>
