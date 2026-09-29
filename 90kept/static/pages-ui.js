@@ -24,6 +24,7 @@ export function mountPagesApp(client, apiBase) {
       invalid_sprint: "That sprint is unavailable. Choose a sprint from 1 to 13.",
       "auth/popup-blocked": "Open 90KEPT in Chrome or Safari to sign in.",
       "auth/network-request-failed": "Check your connection and try again.",
+      "auth/popup-timeout": "If Google's sign-in window hasn't opened, open this page in Chrome or Safari and try again. If it is open, finish signing in there.",
     };
     element("status-message").textContent = messages[error.code] || "Couldn't complete that step. Please try again.";
     element("status-message").hidden = false;
@@ -115,8 +116,13 @@ export function mountPagesApp(client, apiBase) {
   }
   signIn.addEventListener("click", async () => {
     clearError(); signIn.disabled = true; signIn.textContent = "Signing in…";
-    try { await client.signIn(); } catch (error) { showError(error); }
-    finally { signIn.disabled = false; signIn.textContent = "Continue with Google"; }
+    let timeout;
+    try {
+      await Promise.race([client.signIn(), new Promise((resolve, reject) => {
+        timeout = setTimeout(() => reject(Object.assign(new Error(), { code: "auth/popup-timeout" })), 45000);
+      })]);
+    } catch (error) { showError(error); }
+    finally { clearTimeout(timeout); signIn.disabled = false; signIn.textContent = "Continue with Google"; }
   });
   element("sign-out").addEventListener("click", () => client.signOut().catch(showError));
   element("refresh-purchase").addEventListener("click", () => { clearError(); loadState().catch(showError); });
