@@ -87,13 +87,15 @@ export function mountPagesApp(client, apiBase) {
     const data = await api(`/api/state${sprint === null ? "" : `?sprint=${encodeURIComponent(sprint)}`}`);
     if (version !== stateVersion || signedInVersion !== authVersion || !client.user) return;
     state = data;
-    if (!state.paid) {
+    if (!state.profile.goal_locked) {
+      view("setup");
+    } else if (!state.paid) {
+      element("payment-goal").textContent = state.profile.goal;
+      element("payment-tracks").textContent = state.profile.tracks.join(" · ");
       element("checkout-link").hidden = !state.checkout_url;
       element("checkout-unavailable").hidden = Boolean(state.checkout_url);
       if (state.checkout_url) element("checkout-link").href = state.checkout_url;
       view("paywall");
-    } else if (!state.profile.goal_locked) {
-      view("setup");
     } else {
       renderRun();
       view("run");

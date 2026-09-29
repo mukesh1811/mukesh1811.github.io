@@ -8,7 +8,7 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=66cdda0b38">
+  <link rel="stylesheet" href="./static/styles.css?v=4539b4f3cd">
 </head>
 <body>
   <main class="phone-shell">
@@ -23,26 +23,29 @@
 <section id="loading-view" class="auth-screen"><p class="sub" role="status">Opening your run…</p></section>
 <section id="sign-in-view" class="auth-screen" hidden>
   <img class="auth-mark" src="./static/branding/90kept-mark.svg?v=f559dcb5c7" width="104" height="104" alt="">
-  <h1>Keep your<br>promise.</h1><p class="sub">Sign in to lock your goal and check in each day.</p>
+  <h1>Keep your<br>promise.</h1><p class="sub">Log in, create your goal, then unlock your run.</p>
   <button id="sign-in-button" class="primary">Continue with Google</button>
   <p class="fineprint">Your goal. Your three tracks. Your 91 days.</p>
 </section>
 <section id="paywall-view" class="auth-screen" hidden>
-  <div class="eyebrow">2026 Winter Arc offer</div><h1>bet on<br>yourself.</h1>
+  <div class="eyebrow">Your goal is saved</div><h1 id="payment-goal" class="payment-goal"></h1>
+  <p id="payment-tracks" class="sub"></p>
+  <p class="sub">Unlock your daily check-ins with one payment.</p>
   <div class="price"><s>$90</s> <strong>$45</strong></div>
   <p class="sub">One payment. Lifetime access to unlimited future runs.</p>
-  <a id="checkout-link" class="primary link-button" hidden>BET $45 ON YOURSELF</a>
+  <a id="checkout-link" class="primary link-button" hidden>Pay $45 and start</a>
   <button id="checkout-unavailable" class="primary" disabled hidden>Checkout opening soon</button>
   <button id="refresh-purchase" class="text-button">Already paid? Refresh access</button>
 </section>
 <section id="setup-view" class="setup-card" hidden>
-  <div class="eyebrow">Lock your 91 days</div><h2>Who are you on Jan 1?</h2>
+  <h2>Create your goal</h2>
+  <p class="sub">Who are you on Jan 1? Choose one goal and three daily tracks.</p>
   <form id="pages-setup-form">
     <label>One goal<input name="goal" placeholder="I am 65 kg" maxlength="80" required></label>
     <label>Track 1<input name="track1" placeholder="Workout" maxlength="24" required></label>
     <label>Track 2<input name="track2" placeholder="Protein" maxlength="24" required></label>
     <label>Track 3<input name="track3" placeholder="Sleep" maxlength="24" required></label>
-    <button class="primary" type="submit">LOCK MY 90</button>
+    <button class="primary" type="submit">Save goal and continue</button>
     <p class="fineprint">Goal, tracks, and timezone cannot be edited after locking.</p>
   </form>
 </section>
@@ -73,7 +76,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=9af33b6311"></script>
+<script type="module" src="./static/pages-app.js?v=44ab23a5f2"></script>
 
 </body>
 </html>

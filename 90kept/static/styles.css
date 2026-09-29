@@ -41,12 +41,11 @@ button:disabled { cursor: default; }
 .mini-row i { width: 10px; height: 10px; border-radius: 50%; justify-self: center; background: var(--quiet); }
 .mini-row i.yes { background: var(--kept); }
 .mini-row i.no { background: var(--no); }
-.mock-button, .primary { border: 0; background: var(--text); color: var(--bg); font-weight: 800; border-radius: 10px; min-height: 54px; width: 100%; padding: 12px 14px; }
+.primary { border: 0; background: var(--text); color: var(--bg); font-weight: 800; border-radius: 10px; min-height: 54px; width: 100%; padding: 12px 14px; }
 .primary { transition: background 160ms ease, transform 160ms ease; }
 .primary:hover:not(:disabled) { background: #62483e; }
 .primary:active:not(:disabled) { transform: translateY(1px); }
 .primary:disabled { background: var(--quiet); color: var(--muted); }
-.mock-button { display: flex; justify-content: center; align-items: center; margin-top: 14px; min-height: 42px; font-size: 13px; background: #ecdacb; color: var(--text); }
 .rules { border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); }
 .rules p { margin: 0; padding: 15px 0; border-bottom: 1px solid var(--line); font-size: 16px; }
 .rules p:last-child { border: 0; }
@@ -90,6 +89,7 @@ button:disabled { cursor: default; }
 .setup-card input { display: block; width: 100%; margin-top: 6px; background: var(--bg); border: 1px solid var(--line); border-radius: 8px; padding: 14px; color: var(--text); font-size: 16px; }
 .auth-screen { display: flex; flex-direction: column; gap: 24px; margin-top: 70px; }
 .auth-mark { margin-bottom: 4px; }
+.auth-screen h1.payment-goal { font-size: 38px; line-height: 1.1; letter-spacing: -1.5px; overflow-wrap: anywhere; }
 .account-button { width: auto !important; flex-shrink: 0; }
 .status-message { border-left: 3px solid var(--accent); padding: 12px; font-size: 13px; line-height: 1.5; }
 dialog { width: min(calc(100% - 24px),406px); background: var(--panel); color: var(--text); border: 1px solid var(--line); border-radius: 16px; padding: 18px; }

@@ -10,7 +10,7 @@
   <title>90KEPT — one promise. 13 weeks. kept.</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=66cdda0b38">
+  <link rel="stylesheet" href="./static/styles.css?v=4539b4f3cd">
 </head>
 <body>
   <main class="phone-shell">
@@ -43,11 +43,11 @@
       <div class="mini-row "><span>THU</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
       
     </div>
-    <div class="mock-button">Check in</div>
   </div>
   <div class="rules"><p>one locked goal</p><p>three yes/no tracks</p><p>midnight locks the day</p></div>
   <div class="offer"><div class="eyebrow">2026 Winter Arc offer</div><div class="price"><s>$90</s> <strong>$45</strong></div><small>one payment · lifetime access · $90 from Jan 1</small></div>
-  <a id="primary-cta" class="primary link-button" href="./app.html">BET $45 ON YOURSELF</a>
+  <button id="primary-cta" class="primary" type="button">Login</button>
+  <p id="login-error" class="status-message" role="alert" hidden></p>
   <p class="fineprint">Unlimited future runs. One active 90KEPT at a time.</p>
 </section>
 
@@ -56,6 +56,14 @@
       <a href="./terms.html">Terms</a>
     </nav>
   </main>
-  <script src="./static/pages.js?v=5a2e6472be"></script>
+  
+<script>
+window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
+window.NINETYKEPT_APP_URL = "./app.html";
+window.NINETYKEPT_SERVER_SESSION = false;
+</script>
+<script src="./static/pages.js?v=5a2e6472be"></script>
+<script type="module" src="./static/landing.js?v=26ed20141b"></script>
+
 </body>
 </html>
