@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+  <meta name="theme-color" content="#F1ECE6">
+  
+  <title>Your promise — 90KEPT</title>
+  <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
+  <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
+  <link rel="stylesheet" href="./static/styles.css?v=66cdda0b38">
+</head>
+<body>
+  <main class="phone-shell">
+    
+<header class="app-header">
+  <a class="brand brand-lockup" href="./index.html" aria-label="90KEPT home">
+    <img src="./static/branding/90kept-mark.svg?v=f559dcb5c7" width="36" height="36" alt=""><span>90KEPT</span>
+  </a>
+  <button id="sign-out" class="text-button account-button" hidden>Sign out</button>
+</header>
+<p id="status-message" class="status-message" role="alert" hidden></p>
+<section id="loading-view" class="auth-screen"><p class="sub" role="status">Opening your run…</p></section>
+<section id="sign-in-view" class="auth-screen" hidden>
+  <img class="auth-mark" src="./static/branding/90kept-mark.svg?v=f559dcb5c7" width="104" height="104" alt="">
+  <h1>Keep your<br>promise.</h1><p class="sub">Sign in to lock your goal and check in each day.</p>
+  <button id="sign-in-button" class="primary">Continue with Google</button>
+  <p class="fineprint">Your goal. Your three tracks. Your 91 days.</p>
+</section>
+<section id="paywall-view" class="auth-screen" hidden>
+  <div class="eyebrow">2026 Winter Arc offer</div><h1>bet on<br>yourself.</h1>
+  <div class="price"><s>$90</s> <strong>$45</strong></div>
+  <p class="sub">One payment. Lifetime access to unlimited future runs.</p>
+  <a id="checkout-link" class="primary link-button" hidden>BET $45 ON YOURSELF</a>
+  <button id="checkout-unavailable" class="primary" disabled hidden>Checkout opening soon</button>
+  <button id="refresh-purchase" class="text-button">Already paid? Refresh access</button>
+</section>
+<section id="setup-view" class="setup-card" hidden>
+  <div class="eyebrow">Lock your 91 days</div><h2>Who are you on Jan 1?</h2>
+  <form id="pages-setup-form">
+    <label>One goal<input name="goal" placeholder="I am 65 kg" maxlength="80" required></label>
+    <label>Track 1<input name="track1" placeholder="Workout" maxlength="24" required></label>
+    <label>Track 2<input name="track2" placeholder="Protein" maxlength="24" required></label>
+    <label>Track 3<input name="track3" placeholder="Sleep" maxlength="24" required></label>
+    <button class="primary" type="submit">LOCK MY 90</button>
+    <p class="fineprint">Goal, tracks, and timezone cannot be edited after locking.</p>
+  </form>
+</section>
+<section id="run-view" class="app-screen" hidden>
+  <section class="promise"><div class="eyebrow">My promise</div><h1 id="goal-text"></h1></section>
+  <section class="sprint-head">
+    <button id="previous-sprint" class="nav-arrow" aria-label="Previous sprint">←</button>
+    <div><span>Sprint</span><strong id="sprint-number"></strong></div>
+    <button id="next-sprint" class="nav-arrow" aria-label="Next sprint">→</button>
+  </section>
+  <div class="grid-card"><div id="track-headings" class="grid-head"></div><div id="week-grid"></div></div>
+  <p id="run-timezone" class="fineprint"></p>
+  <button id="pages-checkin-open" class="primary sticky-action">CHECK IN</button>
+  <dialog id="pages-checkin-dialog"><form id="pages-checkin-form" method="dialog">
+    <div class="eyebrow">Today</div><h2>Did you keep it?</h2><div id="checkin-questions"></div>
+    <button id="pages-submit-checkin" class="primary" type="submit" disabled>LOCK CHECK-IN</button>
+    <button class="text-button" type="button" id="pages-cancel-checkin">Cancel</button>
+  </form></dialog>
+</section>
+
+    <nav class="legal-links" aria-label="Legal information">
+      <a href="./privacy.html">Privacy</a>
+      <a href="./terms.html">Terms</a>
+    </nav>
+  </main>
+  
+<script>
+window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
+window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
+</script>
+<script type="module" src="./static/pages-app.js?v=56a877329d"></script>
+
+</body>
+</html>

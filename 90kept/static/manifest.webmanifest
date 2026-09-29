@@ -1,10 +1,17 @@
 {
   "name": "90KEPT",
   "short_name": "90KEPT",
-  "start_url": "../",
+  "start_url": "../app.html",
   "display": "standalone",
-  "background_color": "#0a0a0a",
-  "theme_color": "#0a0a0a",
+  "background_color": "#F1ECE6",
+  "theme_color": "#F1ECE6",
   "description": "One promise. 13 weeks. kept.",
+  "icons": [
+    {
+      "src": "./branding/90kept-mark.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ],
   "scope": "../"
 }
