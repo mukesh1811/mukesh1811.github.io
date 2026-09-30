@@ -8,7 +8,7 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=a2494ecd94">
+  <link rel="stylesheet" href="./static/styles.css?v=a9171107f0">
 </head>
 <body>
   <main class="phone-shell">
@@ -39,7 +39,10 @@
   <p class="fineprint">Your goal. Your three tracks. Your 91 days.</p>
 </section>
 <section id="paywall-view" class="auth-screen" hidden>
-  <div class="eyebrow">Your goal is saved</div><h1 id="payment-goal" class="payment-goal"></h1>
+  <div class="promise-heading"><div class="eyebrow">Your goal is saved</div><button class="text-button promise-share-button" type="button" data-share-promise>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v7h14v-7"/></svg>
+  <span>Share promise</span>
+</button></div><h1 id="payment-goal" class="payment-goal"></h1>
   <p id="payment-tracks" class="sub"></p>
   <p class="sub">Unlock your daily check-ins with one payment.</p>
   <div class="price"><s id="payment-compare-price" hidden></s> <strong id="payment-price">₹4,499</strong></div>
@@ -73,7 +76,10 @@
   </form>
 </section>
 <section id="run-view" class="app-screen" hidden>
-  <section class="promise"><div class="eyebrow">My promise</div><h1 id="goal-text"></h1></section>
+  <section class="promise"><div class="promise-heading"><div class="eyebrow">My promise</div><button class="text-button promise-share-button" type="button" data-share-promise>
+  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 16V3m0 0L7 8m5-5 5 5M5 13v7h14v-7"/></svg>
+  <span>Share promise</span>
+</button></div><h1 id="goal-text"></h1></section>
   <section class="sprint-head">
     <button id="previous-sprint" class="nav-arrow" aria-label="Previous sprint">←</button>
     <div><span>Sprint</span><strong id="sprint-number"></strong></div>
@@ -88,6 +94,14 @@
     <button class="text-button" type="button" id="pages-cancel-checkin">Cancel</button>
   </form></dialog>
 </section>
+<dialog id="promise-share-dialog" class="promise-share-dialog" aria-labelledby="promise-share-title">
+  <h2 id="promise-share-title">Share your promise</h2>
+  <label class="share-preview-label" for="promise-share-text">Your message</label>
+  <textarea id="promise-share-text" class="promise-share-text" rows="10" readonly></textarea>
+  <button id="promise-copy" class="primary" type="button" autofocus>Copy promise</button>
+  <p id="promise-share-status" class="fineprint" role="status"></p>
+  <button id="promise-share-close" class="text-button" type="button">Done</button>
+</dialog>
 
     </div>
     <nav class="legal-links" aria-label="Legal information">
@@ -100,7 +114,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=fb13de0140"></script>
+<script type="module" src="./static/pages-app.js?v=13f1b3c3e0"></script>
 
 </body>
 </html>

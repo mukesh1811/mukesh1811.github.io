@@ -1,3 +1,5 @@
+import { mountPromiseShare } from "./promise-share.js?v=4f18999857";
+
 export function mountPagesApp(client, apiBase, browserHelp) {
   const element = (id) => document.getElementById(id);
   const views = ["loading", "sign-in", "paywall", "setup", "run"];
@@ -9,6 +11,7 @@ export function mountPagesApp(client, apiBase, browserHelp) {
   let authVersion = 0;
   let stateVersion = 0;
   let paymentRefresh;
+  const promiseShare = mountPromiseShare(() => state?.profile);
 
   function mountPaymentButton(buttonId) {
     const form = element("razorpay-checkout");
@@ -182,6 +185,7 @@ export function mountPagesApp(client, apiBase, browserHelp) {
     clearTimeout(paymentRefresh);
     const version = ++authVersion;
     state = undefined;
+    promiseShare.reset();
     dialog.close();
     element("sign-out").hidden = !user;
     if (!user) { view("sign-in"); return; }
