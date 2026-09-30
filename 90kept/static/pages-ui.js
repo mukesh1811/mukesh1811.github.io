@@ -10,6 +10,32 @@ export function mountPagesApp(client, apiBase) {
   let stateVersion = 0;
   let paymentRefresh;
 
+  function mountPaymentButton(buttonId) {
+    const form = element("razorpay-checkout");
+    form.hidden = false;
+    if (form.dataset.buttonId === buttonId) return;
+    form.replaceChildren();
+    form.dataset.buttonId = buttonId;
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/payment-button.js";
+    script.dataset.payment_button_id = buttonId;
+    script.async = true;
+    const status = element("payment-button-status");
+    status.hidden = false;
+    status.textContent = "Loading secure checkout…";
+    script.onload = () => { status.hidden = true; };
+    script.onerror = () => {
+      delete form.dataset.buttonId;
+      form.hidden = true;
+      status.textContent = "Razorpay couldn't load. Check your connection and try again.";
+      const retry = element("checkout-unavailable");
+      retry.hidden = false;
+      retry.disabled = false;
+      retry.textContent = "Retry payment button";
+    };
+    form.append(script);
+  }
+
   function view(name) {
     views.forEach((id) => { element(`${id}-view`).hidden = id !== name; });
   }
@@ -104,8 +130,13 @@ export function mountPagesApp(client, apiBase) {
     } else if (!state.paid) {
       element("payment-goal").textContent = state.profile.goal;
       element("payment-tracks").textContent = state.profile.tracks.join(" · ");
-      element("checkout-link").hidden = !state.checkout_url;
-      element("checkout-unavailable").hidden = Boolean(state.checkout_url);
+      element("razorpay-checkout").hidden = true;
+      element("payment-button-status").hidden = true;
+      element("checkout-link").hidden = !state.checkout_url || Boolean(state.payment_button_id);
+      const unavailable = element("checkout-unavailable");
+      unavailable.hidden = Boolean(state.checkout_url || state.payment_button_id);
+      unavailable.disabled = true;
+      unavailable.textContent = "Checkout opening soon";
       if (state.checkout_url) element("checkout-link").href = state.checkout_url;
       const hosted = ["stck", "razorpay"].includes(state.payment_provider) && Boolean(state.checkout_url);
       const razorpay = state.payment_provider === "razorpay";
@@ -132,6 +163,8 @@ export function mountPagesApp(client, apiBase) {
         paymentRefresh = setTimeout(() => {
           if (!document.hidden && client.user) loadState().catch(showError);
         }, 30000);
+      } else if (razorpay && state.payment_button_id) {
+        mountPaymentButton(state.payment_button_id);
       }
       view("paywall");
     } else {
@@ -166,6 +199,13 @@ export function mountPagesApp(client, apiBase) {
     finally { clearTimeout(timeout); signIn.disabled = false; signIn.textContent = "Continue with Google"; }
   });
   element("sign-out").addEventListener("click", () => client.signOut().catch(showError));
+  element("razorpay-checkout").addEventListener("submit", (event) => event.preventDefault());
+  element("checkout-unavailable").addEventListener("click", () => {
+    if (state?.payment_button_id) {
+      element("checkout-unavailable").hidden = true;
+      mountPaymentButton(state.payment_button_id);
+    }
+  });
   element("refresh-purchase").addEventListener("click", () => { clearError(); loadState().catch(showError); });
   document.addEventListener("visibilitychange", () => {
     if (!document.hidden && client.user && state?.profile.goal_locked && !state.paid) loadState().catch(showError);

@@ -90,6 +90,8 @@ button:disabled { cursor: default; }
 .auth-screen { display: flex; flex-direction: column; gap: 24px; margin-top: 70px; }
 .auth-mark { margin-bottom: 4px; }
 .auth-screen h1.payment-goal { font-size: 38px; line-height: 1.1; letter-spacing: -1.5px; overflow-wrap: anywhere; }
+.razorpay-checkout { margin: 0; text-align: center; }
+.razorpay-checkout .razorpay-payment-button { max-width: 100%; }
 .payment-claim { border-top: 1px solid var(--line); padding-top: 8px; }
 .payment-claim label { display: block; color: var(--muted); font-size: 12px; margin-bottom: 6px; }
 .payment-claim input { width: 100%; border: 1px solid var(--line); border-radius: 8px; padding: 14px; background: var(--bg); color: var(--text); font-size: 16px; margin-bottom: 12px; }

@@ -8,7 +8,7 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=4b53934b5e">
+  <link rel="stylesheet" href="./static/styles.css?v=bb35525e2b">
 </head>
 <body>
   <main class="phone-shell">
@@ -34,9 +34,11 @@
   <div class="price"><s id="payment-compare-price" hidden></s> <strong id="payment-price">₹4,499</strong></div>
   <p class="sub">One payment. Lifetime access to unlimited future runs.</p>
   <a id="checkout-link" class="primary link-button" target="_blank" rel="noopener noreferrer" hidden>Pay ₹4,499 and start</a>
+  <form id="razorpay-checkout" class="razorpay-checkout" aria-label="Pay securely with Razorpay" hidden></form>
+  <p id="payment-button-status" class="fineprint" role="status" hidden></p>
   <button id="checkout-unavailable" class="primary" disabled hidden>Checkout opening soon</button>
   <section id="stck-purchase" class="payment-claim" hidden>
-    <p class="fineprint">Pay on <span id="purchase-provider">Stck</span> using <strong id="purchase-email"></strong>. Then return here with the purchase ID from your receipt.</p>
+    <p class="fineprint">Pay with <span id="purchase-provider">Stck</span> using <strong id="purchase-email"></strong>. After payment, submit the purchase ID from your receipt below.</p>
     <form id="stck-claim-form">
       <label id="payment-reference-label" for="stck-order-id">Stck order ID</label>
       <input id="stck-order-id" name="order_id" autocomplete="off" minlength="3" maxlength="120" pattern="[A-Za-z0-9][A-Za-z0-9._:\-]{2,119}" required placeholder="From your payment receipt">
@@ -86,7 +88,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=7a28e165de"></script>
+<script type="module" src="./static/pages-app.js?v=4b742ee65a"></script>
 
 </body>
 </html>
