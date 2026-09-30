@@ -19,6 +19,8 @@ export function mountPagesApp(client, apiBase) {
     const messages = {
       unauthorized: "Please sign in again.", invalid_token: "Your sign-in expired. Sign out and sign in again.",
       goal_already_locked: "Your goal is already locked. Refresh to see your run.",
+      goal_and_three_tracks_required: "Enter your goal and all three daily actions. Each field needs more than spaces.",
+      invalid_timezone: "Your browser's timezone couldn't be recognized. Refresh and try again.",
       checkin_already_locked: "Today's check-in is already locked.",
       outside_cohort: "Check-ins are open October 2 through December 31, 2026.",
       payment_required: "Purchase access before starting your run.",
