@@ -3,7 +3,7 @@ import {
   getAuth, getRedirectResult, GoogleAuthProvider, onAuthStateChanged,
   signInWithPopup, signOut,
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
-import { getBrowserContext } from "./browser-login.js?v=227bd7338d";
+import { getBrowserContext } from "./browser-login.js?v=93ec1f1ebe";
 
 export function createFirebaseClient(config) {
   const auth = getAuth(initializeApp(config));

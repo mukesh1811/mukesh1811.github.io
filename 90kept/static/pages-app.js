@@ -1,15 +1,10 @@
-import { createFirebaseClient } from "./firebase-client.js?v=f7e4143817";
-import { mountPagesApp } from "./pages-ui.js?v=9a999ea90a";
-import { mountBrowserLoginHelp } from "./browser-login.js?v=227bd7338d";
+import { mountBrowserLoginHelp } from "./browser-login.js?v=93ec1f1ebe";
 
 const browserHelp = mountBrowserLoginHelp();
-if (browserHelp.isEmbedded) {
-  document.getElementById("loading-view").hidden = true;
-  document.getElementById("sign-in-view").hidden = false;
-  const button = document.getElementById("sign-in-button");
-  button.textContent = "Continue in your browser";
-  button.addEventListener("click", () => browserHelp.open());
-} else {
+if (!browserHelp.start()) {
+  const [{ createFirebaseClient }, { mountPagesApp }] = await Promise.all([
+    import("./firebase-client.js?v=8405cf6bb4"), import("./pages-ui.js?v=9a999ea90a"),
+  ]);
   const client = createFirebaseClient(window.NINETYKEPT_FIREBASE);
   const controller = mountPagesApp(client, window.NINETYKEPT_API_URL, browserHelp);
   client.completeRedirect()

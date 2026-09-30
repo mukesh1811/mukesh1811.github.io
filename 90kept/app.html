@@ -8,10 +8,21 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=b9512f449a">
+  <link rel="stylesheet" href="./static/styles.css?v=a2494ecd94">
 </head>
 <body>
   <main class="phone-shell">
+    <section id="browser-login-screen" class="browser-login-screen" aria-labelledby="browser-login-title" hidden>
+  <div class="brand brand-lockup"><img src="./static/branding/90kept-mark.svg?v=f559dcb5c7" width="40" height="40" alt=""><span>90KEPT</span></div>
+  <h1 id="browser-login-title">Open 90KEPT<br>in your browser.</h1>
+  <p id="browser-login-reason" class="sub"></p>
+  <p id="browser-login-instructions" class="sub"></p>
+  <a id="browser-open-chrome" class="primary link-button" hidden>Open in Chrome</a>
+  <button id="browser-copy-link" class="primary" type="button">Copy link</button>
+  <input id="browser-login-link" class="browser-login-link" aria-label="90KEPT link to copy" readonly hidden>
+  <p id="browser-link-status" class="fineprint" role="status"></p>
+</section>
+    <div id="site-content">
     
 <header class="app-header">
   <a class="brand brand-lockup" href="./index.html" aria-label="90KEPT home">
@@ -27,17 +38,6 @@
   <button id="sign-in-button" class="primary">Continue with Google</button>
   <p class="fineprint">Your goal. Your three tracks. Your 91 days.</p>
 </section>
-<p id="browser-login-hint" class="fineprint" hidden></p>
-<dialog id="browser-login-dialog" class="browser-login-dialog" aria-labelledby="browser-login-title">
-  <form method="dialog" class="browser-dialog-close"><button type="submit" class="text-button" aria-label="Close browser instructions">×</button></form>
-  <h2 id="browser-login-title">Continue in<br>your browser.</h2>
-  <p class="sub">Google login needs Chrome or Safari.</p>
-  <p id="browser-login-instructions" class="sub"></p>
-  <a id="browser-open-chrome" class="primary link-button" hidden>Open in Chrome</a>
-  <button id="browser-copy-link" class="primary" type="button">Copy link</button>
-  <input id="browser-login-link" class="browser-login-link" aria-label="90KEPT link to copy" readonly hidden>
-  <p id="browser-link-status" class="fineprint" role="status"></p>
-</dialog>
 <section id="paywall-view" class="auth-screen" hidden>
   <div class="eyebrow">Your goal is saved</div><h1 id="payment-goal" class="payment-goal"></h1>
   <p id="payment-tracks" class="sub"></p>
@@ -89,6 +89,7 @@
   </form></dialog>
 </section>
 
+    </div>
     <nav class="legal-links" aria-label="Legal information">
       <a href="./privacy.html">Privacy</a>
       <a href="./terms.html">Terms</a>
@@ -99,7 +100,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=26b14e4952"></script>
+<script type="module" src="./static/pages-app.js?v=fb13de0140"></script>
 
 </body>
 </html>

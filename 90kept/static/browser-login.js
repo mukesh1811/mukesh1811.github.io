@@ -11,14 +11,14 @@ export function getBrowserContext(userAgent = navigator.userAgent) {
 }
 
 export function chromeLoginIntent() {
-  return `intent://mukesh1811.github.io/90kept/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(publicLoginUrl)};end`;
+  const fallback = `${publicLoginUrl}?browser=manual`;
+  return `intent://mukesh1811.github.io/90kept/#Intent;scheme=https;package=com.android.chrome;S.browser_fallback_url=${encodeURIComponent(fallback)};end`;
 }
 
 export function mountBrowserLoginHelp() {
   const context = getBrowserContext();
   const element = (id) => document.getElementById(id);
-  const dialog = element("browser-login-dialog");
-  const hint = element("browser-login-hint");
+  const screen = element("browser-login-screen");
   const chrome = element("browser-open-chrome");
   const copy = element("browser-copy-link");
   const status = element("browser-link-status");
@@ -27,13 +27,13 @@ export function mountBrowserLoginHelp() {
   chrome.href = chromeLoginIntent();
   copy.className = context.android ? "text-button" : "primary";
   link.value = publicLoginUrl;
-  if (context.embedded) {
-    hint.hidden = false;
-    hint.textContent = `${context.appName === "this app" ? "This app's" : `${context.appName}'s`} browser can't complete Google login. Open this page in Chrome or Safari.`;
-  }
-  element("browser-login-instructions").textContent = context.embedded ?
-    `Use ${context.appName === "this app" ? "the app's" : `${context.appName}'s`} ⋯ menu to open this page in your browser, then tap Login.` :
-    "Open the link below in Chrome or Safari, allow pop-ups for 90KEPT, then tap Login.";
+  element("browser-login-reason").textContent = context.embedded ?
+    `${context.appName === "this app" ? "This app's" : `${context.appName}'s`} browser doesn't support Google login.` :
+    "Use Chrome or Safari to complete Google login.";
+  element("browser-login-instructions").textContent = context.android ?
+    "If Chrome hasn't opened, tap below." : context.embedded ?
+    `Tap ${context.appName === "this app" ? "the app's" : `${context.appName}'s`} ⋯ menu, then Open in browser. You can also copy the link below.` :
+    "Copy the link below and open it in Chrome or Safari.";
   copy.addEventListener("click", async () => {
     try {
       if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
@@ -47,13 +47,26 @@ export function mountBrowserLoginHelp() {
       status.textContent = "Copy this link and open it in Chrome or Safari, then tap Login.";
     }
   });
+  function open() {
+    status.textContent = "";
+    link.hidden = true;
+    copy.textContent = "Copy link";
+    element("site-content").hidden = true;
+    screen.hidden = false;
+  }
+  let attempted = false;
   return {
     isEmbedded: context.embedded,
-    open() {
-      status.textContent = "";
-      link.hidden = true;
-      copy.textContent = "Copy link";
-      if (!dialog.open) dialog.showModal();
+    open,
+    start() {
+      if (!context.embedded) return false;
+      open();
+      if (context.android && !attempted && new URL(location.href).searchParams.get("browser") !== "manual") {
+        attempted = true;
+        try { location.replace(chromeLoginIntent()); }
+        catch { /* The browser can require a tap; the handoff screen stays available. */ }
+      }
+      return true;
     },
   };
 }
