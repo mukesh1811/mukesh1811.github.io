@@ -36,9 +36,9 @@
   <a id="checkout-link" class="primary link-button" target="_blank" rel="noopener noreferrer" hidden>Pay ₹999 and start</a>
   <button id="checkout-unavailable" class="primary" disabled hidden>Checkout opening soon</button>
   <section id="stck-purchase" class="payment-claim" hidden>
-    <p class="fineprint">Pay on Stck using <strong id="purchase-email"></strong>. Then return here with the order ID from your receipt.</p>
+    <p class="fineprint">Pay on <span id="purchase-provider">Stck</span> using <strong id="purchase-email"></strong>. Then return here with the purchase ID from your receipt.</p>
     <form id="stck-claim-form">
-      <label for="stck-order-id">Stck order ID</label>
+      <label id="payment-reference-label" for="stck-order-id">Stck order ID</label>
       <input id="stck-order-id" name="order_id" autocomplete="off" minlength="3" maxlength="120" pattern="[A-Za-z0-9][A-Za-z0-9._:\-]{2,119}" required placeholder="From your payment receipt">
       <button id="submit-stck-claim" class="primary" type="submit">Submit purchase for verification</button>
     </form>
@@ -86,7 +86,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=653efc62f8"></script>
+<script type="module" src="./static/pages-app.js?v=7a28e165de"></script>
 
 </body>
 </html>

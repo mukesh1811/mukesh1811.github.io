@@ -24,7 +24,7 @@ export function mountPagesApp(client, apiBase) {
       checkin_already_locked: "Today's check-in is already locked.",
       outside_cohort: "Check-ins are open October 2 through December 31, 2026.",
       payment_required: "Purchase access before starting your run.",
-      invalid_order_id: "Enter the order ID exactly as shown on your Stck receipt.",
+      invalid_order_id: "Enter the purchase ID exactly as shown on your payment receipt.",
       payment_claim_pending: "Your purchase is already awaiting verification.",
       checkout_unavailable: "Checkout isn't available yet. Please try again later.",
       purchase_email_required: "Sign in with the Google email you used to pay.",
@@ -32,6 +32,9 @@ export function mountPagesApp(client, apiBase) {
       invalid_sprint: "That sprint is unavailable. Choose a sprint from 1 to 13.",
       "auth/popup-blocked": "Open 90KEPT in Chrome or Safari to sign in.",
       "auth/network-request-failed": "Check your connection and try again.",
+      "auth/user-token-expired": "Your sign-in expired. Sign in again to continue.",
+      "auth/user-not-found": "Your account was removed. Sign in again to start fresh.",
+      "auth/user-disabled": "This account is disabled. Contact mukesh1811@gmail.com for help.",
       "auth/popup-timeout": "If Google's sign-in window hasn't opened, open this page in Chrome or Safari and try again. If it is open, finish signing in there.",
     };
     element("status-message").textContent = messages[error.code] || "Couldn't complete that step. Please try again.";
@@ -104,13 +107,19 @@ export function mountPagesApp(client, apiBase) {
       element("checkout-link").hidden = !state.checkout_url;
       element("checkout-unavailable").hidden = Boolean(state.checkout_url);
       if (state.checkout_url) element("checkout-link").href = state.checkout_url;
-      const stck = state.payment_provider === "stck" && Boolean(state.checkout_url);
-      const pending = stck && state.payment_claim?.status === "pending";
+      const hosted = ["stck", "razorpay"].includes(state.payment_provider) && Boolean(state.checkout_url);
+      const razorpay = state.payment_provider === "razorpay";
+      const providerName = razorpay ? "Razorpay" : "Stck";
+      const pending = hosted && state.payment_claim?.status === "pending";
       element("payment-price").textContent = state.price.label;
       element("payment-compare-price").hidden = !state.price.compare_label;
       element("payment-compare-price").textContent = state.price.compare_label || "";
-      element("checkout-link").textContent = `Pay ${state.price.label}${stck ? " on Stck" : " and start"}`;
-      element("stck-purchase").hidden = !stck;
+      element("checkout-link").textContent = `Pay ${state.price.label}${hosted ? ` on ${providerName}` : " and start"}`;
+      element("stck-purchase").hidden = !hosted;
+      element("purchase-provider").textContent = providerName;
+      element("payment-reference-label").textContent = razorpay ? "Razorpay payment ID" : "Stck order ID";
+      element("stck-order-id").pattern = razorpay ? "pay_[A-Za-z0-9]{8,40}" : "[A-Za-z0-9][A-Za-z0-9._:\\-]{2,119}";
+      element("stck-order-id").placeholder = razorpay ? "pay_… from your Razorpay receipt" : "From your payment receipt";
       element("purchase-email").textContent = state.user.email;
       element("stck-order-id").disabled = pending;
       element("submit-stck-claim").disabled = pending;
@@ -166,7 +175,7 @@ export function mountPagesApp(client, apiBase) {
     const button = element("submit-stck-claim");
     button.disabled = true;
     try {
-      await api("/api/payments/stck/claim", { order_id: new FormData(event.currentTarget).get("order_id") });
+      await api(`/api/payments/${state.payment_provider}/claim`, { order_id: new FormData(event.currentTarget).get("order_id") });
       await loadState();
     } catch (error) { button.disabled = false; showError(error); }
   });
