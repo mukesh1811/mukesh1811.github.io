@@ -1,4 +1,4 @@
-import { mountPromiseShare } from "./promise-share.js?v=4f18999857";
+import { mountPromiseShare } from "./promise-share.js?v=027a0e6b63";
 
 export function mountPagesApp(client, apiBase, browserHelp) {
   const element = (id) => document.getElementById(id);

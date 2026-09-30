@@ -1,81 +1,127 @@
-const publicSiteUrl = "https://mukesh1811.github.io/90kept/";
-
-export function promiseShareData(profile) {
-  if (!profile?.goal_locked || !profile.goal?.trim() || profile.tracks?.length !== 3) return null;
-  return {
-    title: "My 90KEPT promise",
-    text: `My promise: ${profile.goal}\n\nEvery day:\n${profile.tracks.map((track) => `• ${track}`).join("\n")}\n\nOctober 2–December 31, 2026. 91 days. One promise, kept.`,
-    url: publicSiteUrl,
-  };
-}
+import { createPromiseCard, promiseCardContent, promiseCardFormats } from "./promise-card.js?v=9ee3c7d282";
 
 export function mountPromiseShare(getProfile) {
   const element = (id) => document.getElementById(id);
   const dialog = element("promise-share-dialog");
-  const preview = element("promise-share-text");
+  const image = element("promise-share-image");
+  const preview = element("promise-preview-link");
+  const loading = element("promise-card-loading");
   const status = element("promise-share-status");
-  const copy = element("promise-copy");
+  const share = element("promise-share-image-button");
+  const download = element("promise-download");
   const buttons = [...document.querySelectorAll("[data-share-promise]")];
+  const formats = [...document.querySelectorAll("[data-promise-format]")];
   let version = 0;
-  let busy = false;
+  let renderVersion = 0;
+  let file;
+  let imageUrl;
+  let content;
+  let format = "story";
+  let sharing = false;
 
+  function clearImage() {
+    file = undefined;
+    if (imageUrl) URL.revokeObjectURL(imageUrl);
+    imageUrl = undefined;
+    image.removeAttribute("src");
+    image.alt = "";
+    preview.removeAttribute("href");
+    download.removeAttribute("href");
+    download.hidden = true;
+    share.disabled = true;
+  }
   function reset() {
-    version++;
-    busy = false;
-    buttons.forEach((button) => { button.disabled = false; });
+    version++; renderVersion++;
+    content = undefined;
+    sharing = false;
+    clearImage();
     dialog.close();
-    preview.value = "";
     status.textContent = "";
-    copy.textContent = "Copy promise";
-    copy.disabled = false;
+    formats.forEach((button) => { button.disabled = false; });
   }
-  function showCopy(data) {
-    preview.value = `${data.text}\n\n${data.url}`;
+  function canShareImage() {
+    try {
+      return typeof navigator.share === "function" && typeof navigator.canShare === "function" &&
+        navigator.canShare({ files: [file] });
+    } catch { return false; }
+  }
+  async function render(nextFormat) {
+    const currentVersion = version;
+    const request = ++renderVersion;
+    format = nextFormat;
+    clearImage();
+    loading.hidden = false;
+    loading.textContent = "Preparing your image…";
+    share.hidden = false;
+    share.textContent = "Share image";
     status.textContent = "";
-    copy.textContent = "Copy promise";
-    if (!dialog.open) dialog.showModal();
-  }
-  buttons.forEach((button) => button.addEventListener("click", async () => {
-    const data = promiseShareData(getProfile());
-    if (!data || busy) return;
-    const currentVersion = version;
-    busy = true;
-    buttons.forEach((action) => { action.disabled = true; });
+    formats.forEach((button) => button.setAttribute("aria-pressed", String(button.dataset.promiseFormat === format)));
     try {
-      if (typeof navigator.share === "function") {
-        await navigator.share(data);
-      } else {
-        showCopy(data);
-      }
-    } catch (error) {
-      if (currentVersion === version && error.name !== "AbortError") showCopy(data);
-    } finally {
-      if (currentVersion === version) {
-        busy = false;
-        buttons.forEach((action) => { action.disabled = false; });
-      }
-    }
-  }));
-  copy.addEventListener("click", async () => {
-    if (!dialog.open || !preview.value || copy.disabled) return;
-    const currentVersion = version;
-    copy.disabled = true;
-    try {
-      if (!navigator.clipboard?.writeText) throw new Error("Clipboard unavailable");
-      await navigator.clipboard.writeText(preview.value);
-      if (currentVersion === version) {
-        copy.textContent = "Copied";
-        status.textContent = "Promise copied. Paste it into a message or post.";
-      }
+      const result = await createPromiseCard(content, format);
+      if (currentVersion !== version || request !== renderVersion) return;
+      file = result;
+      imageUrl = URL.createObjectURL(file);
+      image.src = imageUrl;
+      image.alt = `My promise: ${content.goal}. Every day: ${content.tracks.join(", ")}.`;
+      const dimensions = promiseCardFormats[format];
+      image.width = dimensions.width; image.height = dimensions.height;
+      preview.href = imageUrl;
+      download.href = imageUrl;
+      download.download = file.name;
+      download.hidden = false;
+      download.setAttribute("aria-disabled", "false");
+      const supported = canShareImage();
+      share.hidden = !supported;
+      share.disabled = !supported;
+      download.className = `${supported ? "image-download" : "primary"} link-button`;
+      status.textContent = supported ? "Choose Instagram in the share menu." :
+        `Download the image and add it to your Instagram ${format === "story" ? "Story" : "post"}.`;
+      loading.hidden = true;
     } catch {
-      if (currentVersion === version && dialog.open) {
-        preview.focus();
-        preview.select();
-        status.textContent = "Select and copy the message, then paste it into a message or post.";
+      if (currentVersion === version && request === renderVersion) {
+        loading.textContent = "Couldn't prepare the image. Tap Story or Post to try again.";
+        share.hidden = true;
+      }
+    }
+  }
+  buttons.forEach((button) => button.addEventListener("click", () => {
+    const saved = promiseCardContent(getProfile());
+    if (!saved || sharing || dialog.open) return;
+    content = saved;
+    dialog.showModal();
+    render("story");
+  }));
+  formats.forEach((button) => button.addEventListener("click", () => {
+    if (content && !sharing) render(button.dataset.promiseFormat);
+  }));
+  share.addEventListener("click", async () => {
+    if (!file || sharing || share.disabled) return;
+    const currentVersion = version;
+    sharing = true;
+    share.disabled = true;
+    share.textContent = "Sharing…";
+    download.setAttribute("aria-disabled", "true");
+    formats.forEach((button) => { button.disabled = true; });
+    try {
+      // Prepare the PNG before this click to retain user activation for file sharing.
+      await navigator.share({ files: [file] });
+    } catch (error) {
+      if (currentVersion === version && error.name !== "AbortError") {
+        status.textContent = "Sharing was blocked. Download the image and add it in Instagram.";
       }
     } finally {
-      if (currentVersion === version) copy.disabled = false;
+      if (currentVersion === version) {
+        sharing = false;
+        share.disabled = false;
+        share.textContent = "Share image";
+        download.setAttribute("aria-disabled", "false");
+        formats.forEach((button) => { button.disabled = false; });
+      }
     }
+  });
+  download.addEventListener("click", (event) => {
+    if (!file || sharing) { event.preventDefault(); return; }
+    status.textContent = `Open Instagram and add the saved image to your ${format === "story" ? "Story" : "post"}.`;
   });
   element("promise-share-close").addEventListener("click", () => dialog.close());
   dialog.addEventListener("close", reset);
