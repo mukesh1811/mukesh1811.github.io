@@ -8,6 +8,7 @@ export function mountPagesApp(client, apiBase) {
   let values = [null, null, null];
   let authVersion = 0;
   let stateVersion = 0;
+  let paymentRefresh;
 
   function view(name) {
     views.forEach((id) => { element(`${id}-view`).hidden = id !== name; });
@@ -21,6 +22,11 @@ export function mountPagesApp(client, apiBase) {
       checkin_already_locked: "Today's check-in is already locked.",
       outside_cohort: "Check-ins are open October 2 through December 31, 2026.",
       payment_required: "Purchase access before starting your run.",
+      invalid_order_id: "Enter the order ID exactly as shown on your Stck receipt.",
+      payment_claim_pending: "Your purchase is already awaiting verification.",
+      checkout_unavailable: "Checkout isn't available yet. Please try again later.",
+      purchase_email_required: "Sign in with the Google email you used to pay.",
+      setup_required: "Save your goal before submitting a purchase.",
       invalid_sprint: "That sprint is unavailable. Choose a sprint from 1 to 13.",
       "auth/popup-blocked": "Open 90KEPT in Chrome or Safari to sign in.",
       "auth/network-request-failed": "Check your connection and try again.",
@@ -81,6 +87,7 @@ export function mountPagesApp(client, apiBase) {
       state.today < state.cohort_start ? "CHECK-IN OPENS OCT 2" : "THIS RUN HAS ENDED";
   }
   async function loadState() {
+    clearTimeout(paymentRefresh);
     const version = ++stateVersion;
     const signedInVersion = authVersion;
     const sprint = new URL(location.href).searchParams.get("sprint");
@@ -95,6 +102,26 @@ export function mountPagesApp(client, apiBase) {
       element("checkout-link").hidden = !state.checkout_url;
       element("checkout-unavailable").hidden = Boolean(state.checkout_url);
       if (state.checkout_url) element("checkout-link").href = state.checkout_url;
+      const stck = state.payment_provider === "stck" && Boolean(state.checkout_url);
+      const pending = stck && state.payment_claim?.status === "pending";
+      element("payment-price").textContent = state.price.label;
+      element("payment-compare-price").hidden = !state.price.compare_label;
+      element("payment-compare-price").textContent = state.price.compare_label || "";
+      element("checkout-link").textContent = `Pay ${state.price.label}${stck ? " on Stck" : " and start"}`;
+      element("stck-purchase").hidden = !stck;
+      element("purchase-email").textContent = state.user.email;
+      element("stck-order-id").disabled = pending;
+      element("submit-stck-claim").disabled = pending;
+      element("submit-stck-claim").textContent = pending ? "Awaiting verification" : "Submit purchase for verification";
+      element("stck-claim-status").textContent = pending ? `Order ${state.payment_claim.order_id} is saved. We're verifying your purchase.` :
+        state.payment_claim?.status === "rejected" ? "We couldn't verify that purchase. Check your order ID and payment email, then submit again. For help, contact mukesh1811@gmail.com." : "";
+      if (pending) {
+        element("stck-order-id").value = state.payment_claim.order_id;
+        element("checkout-link").hidden = true;
+        paymentRefresh = setTimeout(() => {
+          if (!document.hidden && client.user) loadState().catch(showError);
+        }, 30000);
+      }
       view("paywall");
     } else {
       renderRun();
@@ -102,6 +129,7 @@ export function mountPagesApp(client, apiBase) {
     }
   }
   async function updateAuth(user) {
+    clearTimeout(paymentRefresh);
     const version = ++authVersion;
     state = undefined;
     dialog.close();
@@ -128,6 +156,18 @@ export function mountPagesApp(client, apiBase) {
   });
   element("sign-out").addEventListener("click", () => client.signOut().catch(showError));
   element("refresh-purchase").addEventListener("click", () => { clearError(); loadState().catch(showError); });
+  document.addEventListener("visibilitychange", () => {
+    if (!document.hidden && client.user && state?.profile.goal_locked && !state.paid) loadState().catch(showError);
+  });
+  element("stck-claim-form").addEventListener("submit", async (event) => {
+    event.preventDefault(); clearError();
+    const button = element("submit-stck-claim");
+    button.disabled = true;
+    try {
+      await api("/api/payments/stck/claim", { order_id: new FormData(event.currentTarget).get("order_id") });
+      await loadState();
+    } catch (error) { button.disabled = false; showError(error); }
+  });
   element("pages-setup-form").addEventListener("submit", async (event) => {
     event.preventDefault(); clearError();
     const form = event.currentTarget;

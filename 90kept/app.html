@@ -8,7 +8,7 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=4539b4f3cd">
+  <link rel="stylesheet" href="./static/styles.css?v=4b53934b5e">
 </head>
 <body>
   <main class="phone-shell">
@@ -31,10 +31,20 @@
   <div class="eyebrow">Your goal is saved</div><h1 id="payment-goal" class="payment-goal"></h1>
   <p id="payment-tracks" class="sub"></p>
   <p class="sub">Unlock your daily check-ins with one payment.</p>
-  <div class="price"><s>$90</s> <strong>$45</strong></div>
+  <div class="price"><s id="payment-compare-price" hidden></s> <strong id="payment-price">₹999</strong></div>
   <p class="sub">One payment. Lifetime access to unlimited future runs.</p>
-  <a id="checkout-link" class="primary link-button" hidden>Pay $45 and start</a>
+  <a id="checkout-link" class="primary link-button" target="_blank" rel="noopener noreferrer" hidden>Pay ₹999 and start</a>
   <button id="checkout-unavailable" class="primary" disabled hidden>Checkout opening soon</button>
+  <section id="stck-purchase" class="payment-claim" hidden>
+    <p class="fineprint">Pay on Stck using <strong id="purchase-email"></strong>. Then return here with the order ID from your receipt.</p>
+    <form id="stck-claim-form">
+      <label for="stck-order-id">Stck order ID</label>
+      <input id="stck-order-id" name="order_id" autocomplete="off" minlength="3" maxlength="120" pattern="[A-Za-z0-9][A-Za-z0-9._:\-]{2,119}" required placeholder="From your payment receipt">
+      <button id="submit-stck-claim" class="primary" type="submit">Submit purchase for verification</button>
+    </form>
+    <p id="stck-claim-status" class="fineprint" role="status"></p>
+    <p class="fineprint">We verify the purchase before opening your run. Activation is reviewed manually.</p>
+  </section>
   <button id="refresh-purchase" class="text-button">Already paid? Refresh access</button>
 </section>
 <section id="setup-view" class="setup-card" hidden>
@@ -76,7 +86,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=44ab23a5f2"></script>
+<script type="module" src="./static/pages-app.js?v=21dfd715ed"></script>
 
 </body>
 </html>
