@@ -10,7 +10,7 @@
   <title>90KEPT — one promise. 13 weeks. kept.</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=bb35525e2b">
+  <link rel="stylesheet" href="./static/styles.css?v=b9512f449a">
 </head>
 <body>
   <main class="phone-shell">
@@ -26,6 +26,17 @@
   <div class="landing-promise"><h1>one promise.<br>13 weeks.<br>kept.</h1><p class="sub">91 days. 13 clean sprints. no backfills.</p></div>
   <button id="primary-cta" class="primary" type="button">Login</button>
   <p id="login-error" class="status-message" role="alert" hidden></p>
+  <p id="browser-login-hint" class="fineprint" hidden></p>
+<dialog id="browser-login-dialog" class="browser-login-dialog" aria-labelledby="browser-login-title">
+  <form method="dialog" class="browser-dialog-close"><button type="submit" class="text-button" aria-label="Close browser instructions">×</button></form>
+  <h2 id="browser-login-title">Continue in<br>your browser.</h2>
+  <p class="sub">Google login needs Chrome or Safari.</p>
+  <p id="browser-login-instructions" class="sub"></p>
+  <a id="browser-open-chrome" class="primary link-button" hidden>Open in Chrome</a>
+  <button id="browser-copy-link" class="primary" type="button">Copy link</button>
+  <input id="browser-login-link" class="browser-login-link" aria-label="90KEPT link to copy" readonly hidden>
+  <p id="browser-link-status" class="fineprint" role="status"></p>
+</dialog>
   <div class="mock-card" role="img" aria-label="Example of a weekly check-in grid with three yes or no tracks per day">
     <div class="mock-head"><div><small>My promise</small><strong>I am 65 kg</strong></div><span>S03 / 13</span></div>
     <div class="mini-grid">
@@ -63,7 +74,7 @@ window.NINETYKEPT_APP_URL = "./app.html";
 window.NINETYKEPT_SERVER_SESSION = false;
 </script>
 <script src="./static/pages.js?v=5a2e6472be"></script>
-<script type="module" src="./static/landing.js?v=26ed20141b"></script>
+<script type="module" src="./static/landing.js?v=ae010f90e7"></script>
 
 </body>
 </html>

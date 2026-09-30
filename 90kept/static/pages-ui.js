@@ -1,4 +1,4 @@
-export function mountPagesApp(client, apiBase) {
+export function mountPagesApp(client, apiBase, browserHelp) {
   const element = (id) => document.getElementById(id);
   const views = ["loading", "sign-in", "paywall", "setup", "run"];
   const signIn = element("sign-in-button");
@@ -42,6 +42,9 @@ export function mountPagesApp(client, apiBase) {
   function clearError() { element("status-message").hidden = true; }
   function showError(error) {
     if (error.code === "auth/popup-closed-by-user") return;
+    if (["auth/embedded-browser", "auth/operation-not-supported-in-this-environment", "auth/web-storage-unsupported"].includes(error.code)) {
+      browserHelp?.open();
+    }
     const messages = {
       unauthorized: "Please sign in again.", invalid_token: "Your sign-in expired. Sign out and sign in again.",
       goal_already_locked: "Your goal is already locked. Refresh to see your run.",
@@ -56,7 +59,10 @@ export function mountPagesApp(client, apiBase) {
       purchase_email_required: "Sign in with the Google email you used to pay.",
       setup_required: "Save your goal before submitting a purchase.",
       invalid_sprint: "That sprint is unavailable. Choose a sprint from 1 to 13.",
-      "auth/popup-blocked": "Open 90KEPT in Chrome or Safari to sign in.",
+      "auth/embedded-browser": "Open 90KEPT in Chrome or Safari to sign in.",
+      "auth/operation-not-supported-in-this-environment": "Open 90KEPT in Chrome or Safari to sign in.",
+      "auth/web-storage-unsupported": "Open 90KEPT in Chrome or Safari to sign in.",
+      "auth/popup-blocked": "Allow pop-ups for 90KEPT in your browser, then try signing in again.",
       "auth/network-request-failed": "Check your connection and try again.",
       "auth/user-token-expired": "Your sign-in expired. Sign in again to continue.",
       "auth/user-not-found": "Your account was removed. Sign in again to start fresh.",

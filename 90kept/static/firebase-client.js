@@ -1,8 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-app.js";
 import {
   getAuth, getRedirectResult, GoogleAuthProvider, onAuthStateChanged,
-  signInWithPopup, signInWithRedirect, signOut,
+  signInWithPopup, signOut,
 } from "https://www.gstatic.com/firebasejs/10.13.2/firebase-auth.js";
+import { getBrowserContext } from "./browser-login.js?v=227bd7338d";
 
 export function createFirebaseClient(config) {
   const auth = getAuth(initializeApp(config));
@@ -13,15 +14,11 @@ export function createFirebaseClient(config) {
     completeRedirect: () => getRedirectResult(auth),
     signOut: () => signOut(auth),
     async signIn() {
-      const provider = new GoogleAuthProvider();
-      try {
-        return await signInWithPopup(auth, provider);
-      } catch (error) {
-        if (["auth/popup-blocked", "auth/operation-not-supported-in-this-environment"].includes(error.code)) {
-          return signInWithRedirect(auth, provider);
-        }
-        throw error;
+      if (getBrowserContext().embedded) {
+        throw Object.assign(new Error("Open 90KEPT in your browser to log in."), { code: "auth/embedded-browser" });
       }
+      const provider = new GoogleAuthProvider();
+      return signInWithPopup(auth, provider);
     },
   };
 }

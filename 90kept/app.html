@@ -8,7 +8,7 @@
   <title>Your promise — 90KEPT</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=bb35525e2b">
+  <link rel="stylesheet" href="./static/styles.css?v=b9512f449a">
 </head>
 <body>
   <main class="phone-shell">
@@ -27,6 +27,17 @@
   <button id="sign-in-button" class="primary">Continue with Google</button>
   <p class="fineprint">Your goal. Your three tracks. Your 91 days.</p>
 </section>
+<p id="browser-login-hint" class="fineprint" hidden></p>
+<dialog id="browser-login-dialog" class="browser-login-dialog" aria-labelledby="browser-login-title">
+  <form method="dialog" class="browser-dialog-close"><button type="submit" class="text-button" aria-label="Close browser instructions">×</button></form>
+  <h2 id="browser-login-title">Continue in<br>your browser.</h2>
+  <p class="sub">Google login needs Chrome or Safari.</p>
+  <p id="browser-login-instructions" class="sub"></p>
+  <a id="browser-open-chrome" class="primary link-button" hidden>Open in Chrome</a>
+  <button id="browser-copy-link" class="primary" type="button">Copy link</button>
+  <input id="browser-login-link" class="browser-login-link" aria-label="90KEPT link to copy" readonly hidden>
+  <p id="browser-link-status" class="fineprint" role="status"></p>
+</dialog>
 <section id="paywall-view" class="auth-screen" hidden>
   <div class="eyebrow">Your goal is saved</div><h1 id="payment-goal" class="payment-goal"></h1>
   <p id="payment-tracks" class="sub"></p>
@@ -88,7 +99,7 @@
 window.NINETYKEPT_FIREBASE = {"apiKey": "AIzaSyBRgXiedoyoWHiLI-_Rob9oidoft2CuTts", "appId": "1:608308929005:web:c5f2b626e318cabd7507e4", "authDomain": "prj-id-misc.firebaseapp.com", "projectId": "prj-id-misc"};
 window.NINETYKEPT_API_URL = "https://app-90kept-608308929005.asia-south1.run.app";
 </script>
-<script type="module" src="./static/pages-app.js?v=4b742ee65a"></script>
+<script type="module" src="./static/pages-app.js?v=26b14e4952"></script>
 
 </body>
 </html>
