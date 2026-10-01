@@ -50,8 +50,8 @@ export function mountPagesApp(client, apiBase, browserHelp) {
     }
     const messages = {
       unauthorized: "Please sign in again.", invalid_token: "Your sign-in expired. Sign out and sign in again.",
-      goal_already_locked: "Your goal is already locked. Refresh to see your run.",
-      goal_and_three_tracks_required: "Enter your goal and all three daily actions. Each field needs more than spaces.",
+      goal_already_locked: "Your promise is already locked. Refresh to see your run.",
+      goal_and_three_tracks_required: "Enter your promise and all three daily actions. Each field needs more than spaces.",
       invalid_timezone: "Your browser's timezone couldn't be recognized. Refresh and try again.",
       checkin_already_locked: "Today's check-in is already locked.",
       outside_cohort: "Check-ins are open October 2 through December 31, 2026.",
@@ -60,7 +60,7 @@ export function mountPagesApp(client, apiBase, browserHelp) {
       payment_claim_pending: "Your purchase is already awaiting verification.",
       checkout_unavailable: "Checkout isn't available yet. Please try again later.",
       purchase_email_required: "Sign in with the Google email you used to pay.",
-      setup_required: "Save your goal before submitting a purchase.",
+      setup_required: "Save your promise before submitting a purchase.",
       invalid_sprint: "That sprint is unavailable. Choose a sprint from 1 to 13.",
       "auth/embedded-browser": "Open 90KEPT in Chrome or Safari to sign in.",
       "auth/operation-not-supported-in-this-environment": "Open 90KEPT in Chrome or Safari to sign in.",
