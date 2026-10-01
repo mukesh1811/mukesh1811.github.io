@@ -1,9 +1,13 @@
 import { mountBrowserLoginHelp } from "./browser-login.js?v=93ec1f1ebe";
+import { mountProductFlow } from "./product-flow.js?v=06d3b71ef7";
 
 const button = document.getElementById("primary-cta");
 const errorMessage = document.getElementById("login-error");
 const browserHelp = mountBrowserLoginHelp();
-if (!browserHelp.start()) await mountLogin();
+if (!browserHelp.start()) {
+  mountProductFlow();
+  await mountLogin();
+}
 
 async function mountLogin() {
   let client;

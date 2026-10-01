@@ -10,7 +10,7 @@
   <title>90KEPT — one promise. 13 weeks. kept.</title>
   <link rel="manifest" href="./static/manifest.webmanifest?v=ba844836a4">
   <link rel="icon" type="image/svg+xml" href="./static/branding/90kept-mark.svg?v=f559dcb5c7">
-  <link rel="stylesheet" href="./static/styles.css?v=6e6bc1d430">
+  <link rel="stylesheet" href="./static/styles.css?v=f3f8563b54">
 </head>
 <body>
   <main class="phone-shell">
@@ -37,26 +37,15 @@
   <div class="landing-promise"><h1>one promise.<br>13 weeks.<br>kept.</h1><p class="sub">91 days. 13 clean sprints. no backfills.</p></div>
   <button id="primary-cta" class="primary" type="button">Login</button>
   <p id="login-error" class="status-message" role="alert" hidden></p>
-  <div class="mock-card" role="img" aria-label="Example of a weekly check-in grid with three yes or no tracks per day">
-    <div class="mock-head"><div><small>My promise</small><strong>I am 65 kg</strong></div><span>S03 / 13</span></div>
-    <div class="mini-grid">
-      
-      <div class="mini-row "><span>FRI</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
-      
-      <div class="mini-row "><span>SAT</span><i class="yes"></i><i class="yes"></i><i class="no"></i></div>
-      
-      <div class="mini-row "><span>SUN</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
-      
-      <div class="mini-row "><span>MON</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
-      
-      <div class="mini-row "><span>TUE</span><i class="yes"></i><i class="yes"></i><i class="no"></i></div>
-      
-      <div class="mini-row today"><span>WED</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
-      
-      <div class="mini-row "><span>THU</span><i class="yes"></i><i class="yes"></i><i class="yes"></i></div>
-      
-    </div>
-  </div>
+  <figure class="product-flow">
+    <video id="product-flow-video" width="768" height="960" muted playsinline preload="none"
+      poster="./static/media/product-flow-poster.webp?v=bbfa1f3286"
+      data-src="./static/media/product-flow.mp4?v=0da73c325a"
+      aria-label="Three-second preview: log in, save a goal and three tracks, pay to unlock, then record a daily check-in. Payment verification is required.">
+      Log in, save your goal, pay to unlock your run, then check in daily.
+    </video>
+    <figcaption>One goal. Three tracks. A promise kept daily.</figcaption>
+  </figure>
   <div class="rules"><p>one locked goal</p><p>three yes/no tracks</p><p>midnight locks the day</p></div>
   <div class="offer"><div class="eyebrow">2026 Winter Arc offer</div><div class="price"><strong>₹4,499</strong></div><small>one payment · lifetime access</small></div>
   <p class="fineprint">Unlimited future runs. One active 90KEPT at a time.</p>
@@ -75,7 +64,7 @@ window.NINETYKEPT_APP_URL = "./app.html";
 window.NINETYKEPT_SERVER_SESSION = false;
 </script>
 <script src="./static/pages.js?v=5a2e6472be"></script>
-<script type="module" src="./static/landing.js?v=96632e1532"></script>
+<script type="module" src="./static/landing.js?v=c1f9d0de84"></script>
 
 </body>
 </html>

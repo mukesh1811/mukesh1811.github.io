@@ -29,18 +29,10 @@ button:disabled { cursor: default; }
 .sub, .fineprint { color: var(--muted); }
 .sub { margin: 0; font-size: 14px; line-height: 1.6; }
 .fineprint { text-align: center; font-size: 12px; line-height: 1.5; }
-.mock-card, .grid-card, .setup-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
-.mock-card { padding: 18px; }
-.mock-head { display: flex; justify-content: space-between; align-items: center; }
-.mock-head small { display: block; color: var(--muted); font-size: 11px; }
-.mock-head strong { display: block; font-size: 22px; margin-top: 5px; letter-spacing: -.7px; }
-.mock-head > span { color: var(--muted); font-size: 11px; }
-.mini-grid { margin-top: 18px; }
-.mini-row { display: grid; grid-template-columns: 1.5fr repeat(3,1fr); align-items: center; height: 34px; border-top: 1px solid var(--line); font-size: 10px; color: var(--muted); }
-.mini-row.today { background: #ecdacb; color: var(--text); margin: 0 -18px; padding: 0 18px; box-shadow: inset 3px 0 var(--accent); }
-.mini-row i { width: 10px; height: 10px; border-radius: 50%; justify-self: center; background: var(--quiet); }
-.mini-row i.yes { background: var(--kept); }
-.mini-row i.no { background: var(--no); }
+.grid-card, .setup-card { background: var(--panel); border: 1px solid var(--line); border-radius: 16px; overflow: hidden; }
+.product-flow { margin: 0; }
+.product-flow video { display: block; width: 100%; height: auto; aspect-ratio: 4 / 5; background: var(--panel); border: 1px solid var(--line); border-radius: 16px; }
+.product-flow figcaption { margin-top: 12px; color: var(--muted); font-size: 12px; line-height: 1.5; text-align: center; }
 .primary { border: 0; background: var(--text); color: var(--bg); font-weight: 800; border-radius: 10px; min-height: 54px; width: 100%; padding: 12px 14px; }
 .primary { transition: background 160ms ease, transform 160ms ease; }
 .primary:hover:not(:disabled) { background: #62483e; }
