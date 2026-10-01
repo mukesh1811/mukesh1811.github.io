@@ -1,5 +1,5 @@
 import { mountBrowserLoginHelp } from "./browser-login.js?v=93ec1f1ebe";
-import { mountProductFlow } from "./product-flow.js?v=06d3b71ef7";
+import { mountProductFlow } from "./product-flow.js?v=6072cc3c25";
 
 const button = document.getElementById("primary-cta");
 const errorMessage = document.getElementById("login-error");
